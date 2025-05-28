@@ -1,0 +1,28 @@
+extends layoutEmpleado
+
+block contenido
+  .card.shadow-sm.mb-4
+    .card-header.bg-white.py-3
+      h2.mb-0 Panel del Empleado
+
+    .card-body
+      p Bienvenido, #{empleado.nombre} #{empleado.apellido}
+
+      .d-flex.flex-column.gap-3
+        a.btn.btn-primary(href=`/empleado/${empleado.id}/tareas`)
+          i.fa.fa-tasks.me-1
+          | Ver Tareas Asignadas
+
+        hr
+
+        h5 Buscar tareas por nombre y apellido
+        form(method="GET", action="/buscar-tareas")
+          .mb-3
+            label.form-label(for="nombre") Nombre
+            input.form-control(type="text", name="nombre", id="nombre", required)
+          .mb-3
+            label.form-label(for="apellido") Apellido
+            input.form-control(type="text", name="apellido", id="apellido", required)
+          button.btn.btn-success(type="submit")
+            i.fa.fa-search.me-1
+            | Buscar Tareas

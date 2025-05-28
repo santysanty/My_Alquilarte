@@ -1,0 +1,87 @@
+[
+  {
+    "tareaID": 1,
+    "titulo": "Revisar instalación eléctrica",
+    "descripcion": "Revisión completa del sistema eléctrico del departamento 3B para detectar posibles fallas o cortocircuitos.",
+    "estado": "pendiente",
+    "prioridad": "alta",
+    "fecha": "2025-05-28",
+    "area": "mantenimiento",
+    "empleadoId": 100,
+    "informe": "",
+    "finalizada": false
+  },
+  {
+    "tareaID": 2,
+    "titulo": "Limpieza de áreas comunes",
+    "descripcion": "Limpiar pasillos, ascensores y hall de entrada del edificio A. Incluye barrido, trapeado y desinfección.",
+    "estado": "en progreso",
+    "prioridad": "media",
+    "fecha": "2025-05-27",
+    "area": "limpieza",
+    "empleadoId": 200,
+    "informe": "Se inició la limpieza de pasillos, pendiente el hall de entrada.",
+    "finalizada": false
+  },
+  {
+    "tareaID": 3,
+    "titulo": "Reparar fuga de agua en baño",
+    "descripcion": "Arreglar la fuga de agua en el inodoro del departamento 5A. Posiblemente sea la válvula de flotador.",
+    "estado": "completada",
+    "prioridad": "alta",
+    "fecha": "2025-05-25",
+    "area": "plomería",
+    "empleadoId": 300,
+    "informe": "Válvula de flotador reemplazada. Fuga solucionada. Se probó el inodoro y funciona correctamente.",
+    "finalizada": true
+  },
+  {
+    "tareaID": 400,
+    "titulo": "Instalar luminarias exteriores",
+    "descripcion": "Instalar 3 nuevas luminarias LED en el jardín trasero del edificio B.",
+    "estado": "pendiente",
+    "prioridad": "baja",
+    "fecha": "2025-06-01",
+    "area": "jardinería",
+    "empleadoId": 101,
+    "informe": "",
+    "finalizada": false
+  },
+  {
+    "tareaID": 5,
+    "titulo": "Atender reclamo por ruido",
+    "descripcion": "Verificar el origen del ruido constante en el departamento 2C y hablar con los inquilinos responsables.",
+    "estado": "en progreso",
+    "prioridad": "alta",
+    "fecha": "2025-05-26",
+    "area": "administración",
+    "empleadoId": 400,
+    "informe": "Se habló con los inquilinos. Prometieron bajar el volumen. Se hará seguimiento.",
+    "finalizada": false
+  },
+  {
+    "tareaID": 6,
+    "titulo": "Pintar pared del hall principal",
+    "descripcion": "Pintar la pared del hall principal, que presenta manchas de humedad.",
+    "estado": "pendiente",
+    "prioridad": "media",
+    "fecha": "2025-05-30",
+    "area": "mantenimiento",
+    "empleadoId": 100,
+    "informe": "",
+    "finalizada": false
+  },
+  {
+    "tareaID": 7,
+    "titulo": "Revisar sistema de alarma",
+    "descripcion": "Chequear el funcionamiento del sistema de alarma del edificio C, el sensor de puerta no responde.",
+    "estado": "pendiente",
+    "prioridad": "alta",
+    "fecha": "2025-05-29",
+    "area": "seguridad",
+    "empleadoId": 200,
+    "informe": "",
+    "finalizada": false
+  }
+
+]

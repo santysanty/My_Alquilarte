@@ -1,0 +1,66 @@
+[
+  {
+    "empleadoId": 100,
+    "nombre": "Ana",
+    "apellido": "Gómez",
+    "dni": "123123",
+    "telefono": "111111111",
+    "foto": "/public/uploads/foto-1747677683429.jpeg",
+    "email": "ab@a.com"
+  },
+  {
+    "empleadoIdid": 200,
+    "nombre": "Juan",
+    "apellido": "Garcia"
+  },
+  {
+    "empleadoId": 300,
+    "nombre": "Pedro",
+    "apellido": "Perez"
+  },
+  {
+    "empleadoId": 400,
+    "nombre": "Julia",
+    "apellido": "Sanchez"
+  },
+  {
+    "empleadoId": 500,
+    "nombre": "Emir",
+    "apellido": "Garcia"
+  },
+  {
+    "empleadoId": 600,
+    "nombre": "Haydee",
+    "apellido": "Fernandez"
+  },
+  {
+    "empleadoId": 700,
+    "nombre": "Enzo",
+    "apellido": "Pereyra"
+  },
+  {
+    "empleadoId": 800,
+    "nombre": "Diana",
+    "apellido": "Suarez"
+  },
+  {
+    "empleadoId": 900,
+    "nombre": "Mario",
+    "apellido": "Procopio"
+  },
+  {
+    "empleadoId": 1000,
+    "nombre": "Celeste",
+    "apellido": "Maidana"
+  },
+  {
+    "empleadoId": 1100,
+    "nombre": "manu",
+    "apellido": "corre",
+    "dni": "3393241",
+    "telefono": "1199991199",
+    "email": "m@m.com",
+    "foto": "/public/uploads/foto-1747836311909.jpeg",
+    "rol": "empleado"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "usuario": "admin1",
+    "contrasena": "1234",  
+    "rol": "administrador"
+  },
+  {
+    "usuario": "prop_julia",
+    "contrasena": "clave123",  
+    "rol": "propietario"
+  },
+  {
+    "usuario": "inq_julia",
+    "contrasena": "pass123",
+    "rol": "inquilino",
+    "id": 1,
+    "nombre": "Julia",
+    "apellido": "Gómez",
+    "dni": "30123456",
+    "telefono": "1122334455",
+    "email": "julia@gmail.com",
+    "direccion": "Calle 123"
+  },
+  {
+    "usuario": "emp_carlos",
+    "contrasena": "emp123",
+    "rol": "empleado"
+  }
+]
