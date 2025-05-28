@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url'; // Para __dirname
 import methodOverride from 'method-override';
 
 // Importar Routers
-// ... (cuando María y Manuel hagan su parte, importar sus routers)
+// ... (cuando María y Manuel hagan su parte, importar sus router)
 
 import indexRoutes from './routes/indexRoutes.js';
 import authRoutes from './routes/authRoutes.js';
