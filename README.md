@@ -236,3 +236,4 @@ Para asegurar un desarrollo ordenado, colaborativo y sin conflictos, utilizaremo
     git branch -d feature/tu-nombre-modulo # Elimina la rama localmente
     git push origin --delete feature/tu-nombre-modulo # Elimina la rama del remoto
     ```
+# alquilar
