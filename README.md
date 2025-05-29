@@ -133,24 +133,20 @@ Nuestro equipo está organizado para maximizar la eficiencia y la colaboración,
 
 5.2. María( colaboradora 1)
 
--Enfoque Principal: Desarrollo completo del módulo de Empleados.
+-Enfoque Principal: Desarrollo completo del módulo de Empleados y el Desarrollo completo del modulo de tarea .
 -Módulos/Tareas clave: Completar el CRUD de Empleados en `src/controllers/empleadoController.js`
        (si Daniel no lo hizo completo).
 -Definir y mapear todas las rutas relacionadas con empleados en `src/routes/empleadoRoutes.js` (ej. crear,
-        listar, editar, eliminar, ver detalles de empleado).
+        listar, editar, eliminar, ver detalles de empleado), como asi tambien de los modulos de tarea.y
 -Asegurarse de que la subida de fotos de empleados funcione correctamente utilizando `multerConfig.js`.
 -Desarrollar las vistas Pug necesarias para el módulo de empleados (`listaEmpleado.pug`, `nuevaEmpleado.pug`,
-          `empleado.pug`, `editarEmpleado.pug`).
--Interactuar con `empleados.json` para persistir los datos de empleados.
+          `empleado.pug`, `editarEmpleado.pug`) y de tareas.
+-Interactuar con `empleados.json` y tareas.json para persistir los datos de empleados.
 
 5.3. Manuel
 
--Enfoque Principal:Desarrollo de los módulos de empleados y tareas y departamentos, y mejoras de la interfaz
-     de usuario.
--Módulos/Tareas clave:** Crear los modelos POO (`src/models/Propietario.js`, `src/models/Inquilino.js`),
-  implementar el CRUD completo de Propietarios** y **CRUD completo de Inquilinos** en sus respectivos 
-  controladores y rutas, crear los archivos JSON correspondientes en `data/`. También se encargará de 
-  integrar estos nuevos routers en `app.js` y de realizar mejoras generales en el layout y la navegación 
+-Enfoque Principal:Mejoras de la interfaz de usuario.
+`  realizar mejoras generales en el layout y la navegación 
   de todas las vistas Pug para una experiencia de usuario consistente.
 
 6. Estrategia de Ramas y Colaboración (Git & GitHub)
