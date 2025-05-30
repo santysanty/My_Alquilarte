@@ -19,9 +19,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middlewares
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
+
 app.use('/public', express.static(path.join(__dirname, '..', 'public'))); // Ruta corregida para archivos estáticos
 
 // Configuración de Pug
@@ -29,6 +31,7 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '..', 'views')); // Ruta corregida para vistas
 
 // Usar Routers
+
 app.use('/', indexRoutes); // Para / , /inicio, /admin, /empleado (general)
 app.use('/', authRoutes);  // Para /login
 app.use('/cuenta', empleadoRoutes); // Para todas las rutas de /cuenta (empleados)
@@ -42,6 +45,7 @@ app.use((req, res) => {
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
+   // console.log(`Servidor de Alquilarte corriendo en http://localhost:${PORT}`);
 }).on('error', err => {
     if (err.code === 'EADDRINUSE') {
         console.error(`¡El puerto ${PORT} ya está en uso!`);

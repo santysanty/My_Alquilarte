@@ -1,49 +1,64 @@
-extends layoutTarea
+extends layoutAdmin
 block contenido
-  .card.shadow-sm.mb-4
-    .card-header.bg-white.py-3.d-flex.justify-content-between.align-items-center
-      h2.mb-0 Lista de Tareas
-      a.btn.btn-success.btn-sm(href="/tareas/nueva")
-        i.fa.fa-plus.me-1
-        | Nueva
+  .container.mt-5
+    h1 Lista de Tareas
+    a(href="/tareas/nueva", class="btn btn-primary mb-3") Crear Nueva Tarea
 
-    .card-body.p-0
-      if tareas.length
-        .table-responsive
-          table.table.table-hover.mb-0#tareas-table
-            thead.table-light
-              tr
-                th ID
-                th Título
-                th Estado
-                th Prioridad
-                th Fecha
-                th Área
-                th Asignado
-                th.text-center Acciones
-            tbody
-              each t in tareas
-                tr
-                  td.py-2 #{t.id}
-                  td.py-2 #{t.titulo}
-                  td.py-2 #{t.estado}
-                  td.py-2 #{t.prioridad}
-                  td.py-2 #{t.fecha}
-                  td.py-2 #{t.area}
-                  td.py-2
-                    - const emp = empleados.find(e => e.id === t.empleadoId);
-                    = emp ? emp.nombre + ' ' + emp.apellido : 'No asignado'
-                  td.text-center.py-2
-                    form.d-inline(method="POST" action=`/tareas/${t.id}?_method=DELETE`)
-                      button.btn.btn-sm.btn-danger(type="submit" onclick="return confirm('¿Eliminar tarea?');")
-                        i.fa.fa-trash
-      else
-        .p-4.text-center.text-muted No hay tareas registradas.
+    // Formulario de Filtros
+    form(method="GET", action="/tareas", class="mb-4")
+      .row.g-3.align-items-end
+        .col-md-3
+          label(for="estado", class="form-label") Estado:
+          select(name="estado", id="estado", class="form-select")
+            option(value="todos", selected=currentEstado === 'todos' ? 'selected' : false) Todos
+            option(value="pendiente", selected=currentEstado === 'pendiente' ? 'selected' : false) Pendiente
+            option(value="en progreso", selected=currentEstado === 'en progreso' ? 'selected' : false) En Progreso
+            option(value="completada", selected=currentEstado === 'completada' ? 'selected' : false) Completada
+        .col-md-3
+          label(for="prioridad", class="form-label") Prioridad:
+          select(name="prioridad", id="prioridad", class="form-select")
+            option(value="todas", selected=currentPrioridad === 'todas' ? 'selected' : false) Todas
+            option(value="baja", selected=currentPrioridad === 'baja' ? 'selected' : false) Baja
+            option(value="media", selected=currentPrioridad === 'media' ? 'selected' : false) Media
+            option(value="alta", selected=currentPrioridad === 'alta' ? 'selected' : false) Alta
+        .col-md-3
+          label(for="area", class="form-label") Área:
+          select(name="area", id="area", class="form-select")
+            option(value="todas", selected=currentArea === 'todas' ? 'selected' : false) Todas
+            each areaOpt in ['Ventas', 'Administración', 'Contabilidad', 'Mantenimiento']
+              option(value=areaOpt, selected=currentArea === areaOpt.toLowerCase() ? 'selected' : false)= areaOpt
+        .col-md-3
+          label(for="busqueda", class="form-label") Buscar:
+          input(type="text", name="busqueda", id="busqueda", class="form-control", value=currentBusqueda, placeholder="Título o descripción")
+        .col-12.text-end
+          button(type="submit", class="btn btn-info me-2") Filtrar
+          a(href="/tareas", class="btn btn-outline-secondary") Limpiar Filtros
 
-  script.
-    document.getElementById('search')?.addEventListener('input', function() {
-      const term = this.value.toLowerCase();
-      document.querySelectorAll('#tareas-table tbody tr').forEach(row => {
-        row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
-      });
-    });
+    if tareas.length > 0
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th ID
+            th Título
+            th Descripción
+            th Área
+            th Estado
+            th Prioridad
+            th Fecha
+            th Acciones
+        tbody
+          each tarea in tareas
+            tr
+              td= tarea.tareaID
+              td= tarea.titulo
+              td= tarea.descripcion
+              td= tarea.area
+              td= tarea.estado
+              td= tarea.prioridad
+              td= tarea.fecha
+              td
+                a(href=`/tareas/${tarea.tareaID}/editar`, class="btn btn-sm btn-warning me-2") Editar
+                form(action=`/tareas/${tarea.tareaID}/eliminar?_method=DELETE`, method="POST", style="display:inline;")
+                  button(type="submit", class="btn btn-sm btn-danger", onclick="return confirm('¿Estás seguro de eliminar esta tarea?');") Eliminar
+    else
+      p No hay tareas registradas que coincidan con los criterios.

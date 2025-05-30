@@ -1,36 +1,12 @@
 [
   {
-    "tareaID": 1,
-    "titulo": "Revisar instalación eléctrica",
-    "descripcion": "Revisión completa del sistema eléctrico del departamento 3B para detectar posibles fallas o cortocircuitos.",
-    "estado": "pendiente",
-    "prioridad": "alta",
-    "fecha": "2025-05-28",
-    "area": "mantenimiento",
-    "empleadoId": 100,
-    "informe": "",
-    "finalizada": false
-  },
-  {
-    "tareaID": 2,
-    "titulo": "Limpieza de áreas comunes",
-    "descripcion": "Limpiar pasillos, ascensores y hall de entrada del edificio A. Incluye barrido, trapeado y desinfección.",
-    "estado": "en progreso",
-    "prioridad": "media",
-    "fecha": "2025-05-27",
-    "area": "limpieza",
-    "empleadoId": 200,
-    "informe": "Se inició la limpieza de pasillos, pendiente el hall de entrada.",
-    "finalizada": false
-  },
-  {
     "tareaID": 3,
     "titulo": "Reparar fuga de agua en baño",
     "descripcion": "Arreglar la fuga de agua en el inodoro del departamento 5A. Posiblemente sea la válvula de flotador.",
     "estado": "completada",
     "prioridad": "alta",
     "fecha": "2025-05-25",
-    "area": "plomería",
+    "area": "Mantenimiento",
     "empleadoId": 300,
     "informe": "Válvula de flotador reemplazada. Fuga solucionada. Se probó el inodoro y funciona correctamente.",
     "finalizada": true
@@ -42,7 +18,7 @@
     "estado": "pendiente",
     "prioridad": "baja",
     "fecha": "2025-06-01",
-    "area": "jardinería",
+    "area": "Mantenimiento",
     "empleadoId": 101,
     "informe": "",
     "finalizada": false
@@ -54,7 +30,7 @@
     "estado": "en progreso",
     "prioridad": "alta",
     "fecha": "2025-05-26",
-    "area": "administración",
+    "area": "Administración",
     "empleadoId": 400,
     "informe": "Se habló con los inquilinos. Prometieron bajar el volumen. Se hará seguimiento.",
     "finalizada": false
@@ -66,7 +42,7 @@
     "estado": "pendiente",
     "prioridad": "media",
     "fecha": "2025-05-30",
-    "area": "mantenimiento",
+    "area": "Mantenimiento",
     "empleadoId": 100,
     "informe": "",
     "finalizada": false
@@ -78,10 +54,45 @@
     "estado": "pendiente",
     "prioridad": "alta",
     "fecha": "2025-05-29",
-    "area": "seguridad",
+    "area": "Administración",
     "empleadoId": 200,
     "informe": "",
     "finalizada": false
+  },
+  {
+    "tareaID": 8,
+    "titulo": "Preparar informe de ventas mensuales",
+    "descripcion": "Consolidar datos de propiedades vendidas y comisiones generadas en el mes de mayo.",
+    "estado": "pendiente",
+    "prioridad": "alta",
+    "fecha": "2025-06-03",
+    "area": "Ventas",
+    "empleadoId": 102,
+    "informe": "",
+    "finalizada": false
+  },
+  {
+    "tareaID": 9,
+    "titulo": "Conciliación bancaria",
+    "descripcion": "Revisar movimientos bancarios y compararlos con registros contables del último trimestre.",
+    "estado": "en progreso",
+    "prioridad": "media",
+    "fecha": "2025-06-05",
+    "area": "Contabilidad",
+    "empleadoId": 103,
+    "informe": "Faltan validar 2 movimientos. Pendiente.",
+    "finalizada": false
+  },
+  {
+    "tareaID": 401,
+    "titulo": "Revision de contratos",
+    "descripcion": "Revisar las capertas de :\r\n-Datos Personales\r\n-Garantes\r\n-Pagos\r\n-recibos\r\n",
+    "estado": "en progreso",
+    "prioridad": "alta",
+    "fecha": "2025-07-22",
+    "area": "Administración",
+    "empleadoId": 101,
+    "informe": "Por medio de la presente se encuentra en revision prendaria",
+    "finalizada": true
   }
-
 ]
