@@ -237,3 +237,47 @@ Para asegurar un desarrollo ordenado, colaborativo y sin conflictos, utilizaremo
     git push origin --delete feature/tu-nombre-modulo # Elimina la rama del remoto
     ```
 
+---
+
+## Avances de la Primera Entrega: Módulo de Gestión de Tareas
+
+Esta sección detalla los avances realizados en el proyecto para cumplir con los requisitos de la Primera Entrega, enfocándose en el módulo de Gestión de Tareas.
+
+### **Características Implementadas:**
+
+Hemos completado la implementación del **Módulo de Gestión de Tareas**, cubriendo los siguientes puntos clave de los requisitos:
+
+* **CRUD Completo de Tareas:**
+    * **Crear (Create):** Funcionalidad para dar de alta nuevas tareas, incluyendo campos como título, descripción, área, estado, prioridad, fecha y asignación a un empleado (empleadoId).
+    * **Leer (Read):** Visualización de todas las tareas existentes en una tabla, con opciones de paginación y ordenamiento (si se implementó).
+    * **Actualizar (Update):** Edición de tareas existentes a través de un formulario precargado con los datos actuales.
+    * **Eliminar (Delete):** Borrado de tareas individuales de la base de datos.
+* **Filtros de Búsqueda Avanzados:**
+    * Implementación de filtros para buscar y visualizar tareas por:
+        * **Estado** (ej., Pendiente, En Proceso, Finalizada).
+        * **Prioridad** (ej., Alta, Media, Baja).
+        * **Área** (ej., Ventas, Administración, Contabilidad, Mantenimiento).
+        * **Búsqueda general** por título o descripción.
+* **Persistencia de Datos en JSON:**
+    * Todos los datos de las tareas se almacenan y gestionan a través de archivos `.json` en el servidor, cumpliendo con el requisito de almacenamiento no relacional.
+* **Vistas Dinámicas con Pug:**
+    * Se han desarrollado las interfaces de usuario para el CRUD de tareas utilizando el motor de plantillas Pug, incluyendo vistas para listar, crear y editar tareas, así como un layout administrativo base.
+* **Modularización y Arquitectura:**
+    * El código está modularizado siguiendo una estructura clara (controladores, rutas, modelos, utilidades), aplicando principios de Programación Orientada a Objetos (POO) y el patrón MVC (Modelo-Vista-Controlador).
+    * Uso de **asincronía con promesas y `async/await`** para operaciones de I/O.
+    * Implementación de **rutas dinámicas** y uso de **middleware** (`method-override`) para manejar métodos HTTP avanzados en formularios.
+
+### **Trabajo Pendiente para la Primera Entrega:**
+
+Los siguientes puntos, esenciales para la Primera Entrega, están actualmente **en progreso** o requieren atención:
+
+* **Alta de Empleados con Asignación de Rol y Sector:**
+    * Esta funcionalidad (CRUD de Empleados) está siendo desarrollada por el equipo (María). Una vez completa, se integrará con el módulo de tareas para permitir la asignación de tareas a empleados y futuros filtros por empleado.
+    * Se asegurará la inclusión de campos para `rol` (administrador, empleado, supervisor) y `sector` para cada empleado.
+* **Panel de Administración (Usuarios):**
+    * La base para el panel de administración de usuarios (empleados) se construirá una vez que el CRUD de Empleados esté completo.
+* **Autenticación y Autorización (Preparación para Segunda Entrega):**
+    * Aunque la funcionalidad de sesiones no es obligatoria para esta entrega, se garantizará que la estructura del sistema soporte la futura implementación de acceso restringido por tipo de usuario (`rol`).
+    * Los empleados ya tienen un campo `empleadoId` asociado a la tarea, lo que facilita futuras integraciones.
+
+---
