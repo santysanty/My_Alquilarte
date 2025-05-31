@@ -1,11 +1,11 @@
 extends layoutEmpleado
-
 block contenido
   .card.mx-auto.shadow-sm.mb-4(style="max-width: 480px;")
     .card-header.bg-white.py-3
       h3.mb-0 Crear Nuevo Empleado
     .card-body
-      form(method="POST" action="/cuenta/nueva" enctype="multipart/form-data")
+      // La acción del formulario debe apuntar a la ruta POST /empleados/nuevo
+      form(method="POST" action="/empleados/nuevo")
         .mb-3
           label.form-label(for="nombre") Nombre
           input.form-control(type="text" name="nombre" id="nombre" required)
@@ -19,8 +19,9 @@ block contenido
           label.form-label(for="telefono") Teléfono
           input.form-control(type="text" name="telefono" id="telefono" required)
         .mb-3
-          label.form-label(for="email") Correo Electrónico
-          input.form-control(type="email" name="email" id="email" required)
+          label.form-label(for="correoElectronico") Correo Electrónico
+          // Nombre del campo en el formulario debe coincidir con la propiedad de la clase
+          input.form-control(type="email" name="correoElectronico" id="correoElectronico" required)
         .mb-3
           label.form-label(for="usuario") Usuario
           input.form-control(type="text" name="usuario" id="usuario" required)
@@ -30,18 +31,24 @@ block contenido
         .mb-3
           label.form-label(for="rol") Rol
           select.form-select(name="rol" id="rol")
-            option(value="empleado") Empleado
+            // Los valores deben ser coherentes con los roles que planeas usar en tu lógica
+            option(value="agente_inmobiliario") Agente Inmobiliario
+            option(value="administrativo") Administrativo
+            option(value="contador") Contador
             option(value="administrador") Administrador
-            option(value="administrador") Propietario
-            option(value="administrador") Inquilino
-        .mb-3
-          label.form-label(for="foto") Foto
-          input.form-control(type="file" name="foto" id="foto" accept="image/*")
+            option(value="supervisor") Supervisor
+        // Si no vas a subir fotos por ahora, puedes comentar o quitar este campo.
+        // Si planeas subir archivos, necesitarás un middleware como 'multer' en tu app.js
+        // y agregar enctype="multipart/form-data" al formulario.
+        // .mb-3
+        //   label.form-label(for="foto") Foto
+        //   input.form-control(type="file" name="foto" id="foto" accept="image/*")
+        
         .d-flex.justify-content-end
           button.btn.btn-success(type="submit")
             i.fa.fa-check.me-1
-            | Crear
-          a.btn.btn-secondary.ms-2(href="/cuenta")
+            | Crear Empleado
+          // La URL de "Cancelar" debe apuntar a la lista de empleados
+          a.btn.btn-secondary.ms-2(href="/empleados")
             i.fa.fa-times.me-1
             | Cancelar
-
