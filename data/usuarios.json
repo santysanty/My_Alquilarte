@@ -53,5 +53,19 @@
     "rol": "Inquilino",
     "subrol": "administrativo",
     "foto": ""
+  },
+  {
+    "usuarioID": "1102",
+    "id": "1102",
+    "nombre": "Daniel",
+    "apellido": "Coria",
+    "dni": "98765432",
+    "correoElectronico": "daniel@example.com",
+    "telefono": "123456789",
+    "usuario": "dcoria",
+    "contrasena": "mypass123",
+    "rol": "empleado",
+    "subrol": "administrativo",
+    "foto": ""
   }
 ]
