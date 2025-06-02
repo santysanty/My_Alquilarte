@@ -1,28 +1,34 @@
 extends layoutEmpleado
 
 block contenido
-  .card.shadow-sm.mb-4
-    .card-header.bg-white.py-3
-      h2.mb-0 Panel del Empleado
+  .container.mt-5
+    .card.shadow-sm
+      .card-header.bg-primary.text-white
+        h2.mb-0 Panel del Empleado
 
-    .card-body
-      p Bienvenido, #{empleado.nombre} #{empleado.apellido}
+      .card-body
+        p.lead Bienvenido, #{empleado.nombre} #{empleado.apellido}
 
-      .d-flex.flex-column.gap-3
-        a.btn.btn-primary(href=`/empleado/${empleado.id}/tareas`)
-          i.fa.fa-tasks.me-1
-          | Ver Tareas Asignadas
+        .d-grid.gap-3.mt-4
+          a.btn.btn-outline-primary.btn-lg(href=`/empleado/${empleado.id}/tareas`)
+            i.fa.fa-tasks.me-2
+            | Ver Tareas Asignadas
 
-        hr
+        hr.my-4
 
-        h5 Buscar tareas por nombre y apellido
-        form(method="GET", action="/buscar-tareas")
-          .mb-3
-            label.form-label(for="nombre") Nombre
-            input.form-control(type="text", name="nombre", id="nombre", required)
-          .mb-3
-            label.form-label(for="apellido") Apellido
-            input.form-control(type="text", name="apellido", id="apellido", required)
-          button.btn.btn-success(type="submit")
-            i.fa.fa-search.me-1
+        h5.mb-3.text-muted Buscar tareas por nombre y apellido
+
+        form(method="GET", action="/empleados/dashboard/buscar-tareas")
+
+
+          .row.mb-3
+            .col-md-6
+              label.form-label(for="nombre") Nombre
+              input.form-control(type="text", name="nombre", id="nombre", placeholder="Ej. Juan", required)
+            .col-md-6
+              label.form-label(for="apellido") Apellido
+              input.form-control(type="text", name="apellido", id="apellido", placeholder="Ej. Pérez", required)
+
+          button.btn.btn-success.mt-3(type="submit")
+            i.fa.fa-search.me-2
             | Buscar Tareas

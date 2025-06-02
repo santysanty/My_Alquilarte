@@ -212,3 +212,53 @@ export const deleteTarea = async (req, res) => {
         console.log('--- FIN DEPURACIÓN DELETE TAREA ---');
     }
 };
+///
+export const showTareaDetail = async (req, res) => {
+  try {
+    const tareas = await getTareasData();
+    const tarea = tareas.find(t => t.tareaID.toString() === req.params.id);
+
+    if (!tarea) {
+      return res.status(404).render('error', {
+        message: 'Tarea no encontrada',
+        detail: `La tarea con ID ${req.params.id} no existe.`
+      });
+    }
+
+    res.render('detalleTarea', {
+      title: `Detalle de Tarea ${tarea.titulo}`,
+      tarea
+    });
+  } catch (error) {
+    console.error('Error al mostrar el detalle de la tarea:', error);
+    res.status(500).render('error', {
+      message: 'Error interno del servidor al mostrar el detalle de la tarea.',
+      detail: error.message
+    });
+  }
+};
+///
+export const buscarTareasPorNombreApellido = async (req, res) => {
+  try {
+    const { nombre, apellido } = req.query;
+    const tareas = await readJsonFile('tareas.json');
+    const empleados = await readJsonFile('empleados.json');
+
+    const empleadosFiltrados = empleados.filter(e =>
+      e.nombre.toLowerCase().includes(nombre.toLowerCase()) &&
+      e.apellido.toLowerCase().includes(apellido.toLowerCase())
+    );
+
+    const tareasEncontradas = tareas.filter(t =>
+      empleadosFiltrados.some(e => e.empleadoID === t.empleadoId)
+    );
+
+    res.render('tareasFiltradas', { tareas: tareasEncontradas });
+  } catch (error) {
+    console.error('Error al buscar tareas:', error);
+    res.status(500).render('error', { mensaje: 'Error al buscar tareas.' });
+  }
+};
+
+///
+

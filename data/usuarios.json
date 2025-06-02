@@ -1,15 +1,5 @@
 [
   {
-    "usuario": "admin1",
-    "contrasena": "1234",  
-    "rol": "administrador"
-  },
-  {
-    "usuario": "prop_julia",
-    "contrasena": "clave123",  
-    "rol": "propietario"
-  },
-  {
     "usuario": "inq_julia",
     "contrasena": "pass123",
     "rol": "inquilino",
@@ -19,11 +9,49 @@
     "dni": "30123456",
     "telefono": "1122334455",
     "email": "julia@gmail.com",
-    "direccion": "Calle 123"
+    "direccion": "Calle 123",
+    "correoElectronico": "j@g.com"
   },
   {
-    "usuario": "emp_carlos",
-    "contrasena": "emp123",
-    "rol": "empleado"
+    "usuarioID": 2,
+    "id": 2,
+    "nombre": "manu",
+    "apellido": "corre",
+    "dni": "33932",
+    "correoElectronico": "m@c.com",
+    "telefono": "111199",
+    "usuario": "m",
+    "contrasena": "c",
+    "rol": "empleado",
+    "subrol": "",
+    "foto": ""
+  },
+  {
+    "usuarioID": 3,
+    "id": 3,
+    "nombre": "admin",
+    "apellido": "admin",
+    "dni": "111112",
+    "correoElectronico": "admin@admin.com",
+    "telefono": "1111122",
+    "usuario": "admin",
+    "contrasena": "1234",
+    "rol": "administrador",
+    "subrol": "",
+    "foto": ""
+  },
+  {
+    "usuarioID": "1101",
+    "id": "1101",
+    "nombre": "Anas",
+    "apellido": "admin2",
+    "dni": "11111",
+    "correoElectronico": "admin@admin.com",
+    "telefono": "11111",
+    "usuario": "admin",
+    "contrasena": "admin",
+    "rol": "Inquilino",
+    "subrol": "administrativo",
+    "foto": ""
   }
 ]

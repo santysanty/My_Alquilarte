@@ -1,4 +1,4 @@
-extends layoutAdm
+extends layoutAdmin
 
 block contenido
   .container.mt-5.text-center
@@ -6,7 +6,11 @@ block contenido
 
     .row.justify-content-center
       .col-md-4
-        a.btn.btn-outline-primary.btn-lg.w-100(href="/incia")
+        a.btn.btn-outline-primary.btn-lg.w-100(href="/usuario/usuarios")
+          i.fa.fa-users.me-2
+          | Gestión de Usuarios
+      .col-md-4
+        a.btn.btn-outline-primary.btn-lg.w-100(href="/empleados")
           i.fa.fa-users.me-2
           | Gestión de Empleados
       .col-md-4

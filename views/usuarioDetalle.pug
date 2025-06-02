@@ -1,0 +1,39 @@
+extends layoutEmpleado
+
+block contenido
+  .container.mt-5
+    .card.shadow
+      .card-header.bg-primary.text-white
+        h4.mb-0 Detalle del Usuario
+
+      .card-body
+        dl.row
+          dt.col-sm-4 ID:
+          dd.col-sm-8 #{usuario.id}
+
+          dt.col-sm-4 Nombre:
+          dd.col-sm-8 #{usuario.nombre}
+
+          dt.col-sm-4 Apellido:
+          dd.col-sm-8 #{usuario.apellido}
+
+          dt.col-sm-4 Usuario:
+          dd.col-sm-8 #{usuario.usuario}
+
+          dt.col-sm-4 Rol:
+          dd.col-sm-8 #{usuario.rol}
+
+          dt.col-sm-4 DNI:
+          dd.col-sm-8 #{usuario.dni}
+
+          dt.col-sm-4 Teléfono:
+          dd.col-sm-8 #{usuario.telefono}
+
+          dt.col-sm-4 Email:
+          dd.col-sm-8 #{usuario.email}
+
+      .card-footer.text-end
+        a.btn.btn-secondary(href="/usuario/usuarios")
+          i.fa.fa-arrow-left.me-1
+          | Volver a la lista
+

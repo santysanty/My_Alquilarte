@@ -30,5 +30,12 @@ router.post('/:id/editar', tareaController.updateTarea); // POST para actualizar
 // Para la eliminación, puedes usar un formulario POST con _method=DELETE
 console.log('tareaRoutes.js: Configurando ruta DELETE /tareas/:id/eliminar'); // **LOG Y RUTA ACTUALIZADOS**
 router.delete('/:id/eliminar', tareaController.deleteTarea); // **¡CAMBIO CLAVE AQUÍ: de POST a DELETE!**
+// Ver detalle de una tarea
+router.get('/:id', tareaController.showTareaDetail);
+
+
+router.get('/empleados/dashboard/buscar-tareas', tareaController.buscarTareasPorNombreApellido);
+
+
 
 export default router; // Usa export default para el import de app.js

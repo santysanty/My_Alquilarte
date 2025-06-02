@@ -11,6 +11,7 @@ class Empleado {
         usuario, // Nombre de usuario para el login
         contrasena, // Contraseña (¡IMPORTANTE! Idealmente, debería ser hasheada, no guardada en texto plano)
         rol, // Rol del empleado (ej. 'Administrador', 'Empleado', 'Supervisor', 'Agente Inmobiliario', 'Contador')
+        subrol,
         foto = null // URL o ruta a la foto del empleado, opcional
     ) {
         this.empleadoID = empleadoID;
@@ -21,7 +22,8 @@ class Empleado {
         this.telefono = telefono;
         this.usuario = usuario;
         this.contrasena = contrasena; // Considerar hashing en un entorno real
-        this.rol = rol;
+        this.rol = 'empleado';
+        this.subrol=this.subrol;
         this.foto = foto;
     }
 }

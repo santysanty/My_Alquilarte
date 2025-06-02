@@ -1,11 +1,11 @@
 extends layoutEmpleado
+
 block contenido
   .card.mx-auto.shadow-sm.mb-4(style="max-width: 480px;")
     .card-header.bg-white.py-3
-      h3.mb-0 Crear Nuevo Empleado
+      h3.mb-0 Crear Nuevo Usuario
     .card-body
-      // La acción del formulario debe apuntar a la ruta POST /empleados/nuevo
-      form(method="POST" action="/empleados/nuevo")
+      form(method="POST" action="/usuario/usuarios/nuevo" enctype="multipart/form-data")
         .mb-3
           label.form-label(for="nombre") Nombre
           input.form-control(type="text" name="nombre" id="nombre" required)
@@ -20,8 +20,7 @@ block contenido
           input.form-control(type="text" name="telefono" id="telefono" required)
         .mb-3
           label.form-label(for="correoElectronico") Correo Electrónico
-          // Nombre del campo en el formulario debe coincidir con la propiedad de la clase
-          input.form-control(type="email" name="correoElectronico" id="correoElectronico" required)
+          input.form-control(type="email" name="correoElectronico" id="email" required)
         .mb-3
           label.form-label(for="usuario") Usuario
           input.form-control(type="text" name="usuario" id="usuario" required)
@@ -31,31 +30,17 @@ block contenido
         .mb-3
           label.form-label(for="rol") Rol
           select.form-select(name="rol" id="rol")
-            // Los valores deben ser coherentes con los roles que planeas usar en tu lógica
-            option(value="Inquilino") Inquilino
-            option(value="Propietario") Propietario
-            option(value="empleado") empleado
+            option(value="empleado") Empleado
             option(value="administrador") Administrador
-        .mb-3
-          label.form-label(for="subRol") Sub Rol
-          select.form-select(name="subrol" id="subrol")
-            // Los valores deben ser coherentes con los roles que planeas usar en tu lógica
-            option(value="administrativo") Administrativo
-            option(value="contador") Contador
-            option(value="empleado") empleado
-            option(value="administrador") Administrador del Sistema
-            option(value="supervisor") Supervisor
-            option(value="agente_inmobiliario") Agente Inmobiliario
-            option(value="mantenimiento") Mantenimiento
-            option(value="ventas") Ventas
+            option(value="propietario") Propietario
+            option(value="inquilino") Inquilino
         .mb-3
           label.form-label(for="foto") Foto
           input.form-control(type="file" name="foto" id="foto" accept="image/*")
         .d-flex.justify-content-end
           button.btn.btn-success(type="submit")
             i.fa.fa-check.me-1
-            | Crear Empleado
-          // La URL de "Cancelar" debe apuntar a la lista de empleados
-          a.btn.btn-secondary.ms-2(href="/empleados")
+            | Crear
+          a.btn.btn-secondary.ms-2(href="/usuario/usuarios")
             i.fa.fa-times.me-1
             | Cancelar

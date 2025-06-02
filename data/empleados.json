@@ -1,110 +1,81 @@
 [
   {
-    "empleadoID": "100",
-    "nombre": "Ana",
+    "empleadoID": 100,
+    "nombre": "Anas",
     "apellido": "Gómez",
-    "dni": "12312345",
-    "correoElectronico": "ana.gomez@example.com",
-    "telefono": "1111111111",
-    "usuario": "ana.gomez",
-    "contrasena": "password123",
-    "rol": "agente_inmobiliario",
-    "foto": "/public/uploads/foto-ana.jpeg"
+    "dni": "123123",
+    "telefono": "111111111",
+    "foto": "/public/uploads/foto-1747677683429.jpeg",
+    "email": "ab@a.com",
+    "correoElectronico": "a@g.com",
+    "rol": "Inquilino",
+    "subrol": "administrativo"
   },
   {
-    "empleadoID": "200",
+    "empleadoID": 200,
     "nombre": "Juan",
-    "apellido": "García",
-    "dni": "23423456",
-    "correoElectronico": "juan.garcia@example.com",
-    "telefono": "2222222222",
-    "usuario": "juan.garcia",
-    "contrasena": "password123",
-    "rol": "administrativo",
-    "foto": null
+    "apellido": "Garcia"
   },
   {
-    "empleadoID": "300",
+    "empleadoID": 300,
     "nombre": "Pedro",
-    "apellido": "Pérez",
-    "dni": "34534567",
-    "correoElectronico": "pedro.perez@example.com",
-    "telefono": "3333333333",
-    "usuario": "pedro.perez",
-    "contrasena": "password123",
-    "rol": "contador",
-    "foto": null
+    "apellido": "Perez"
   },
   {
-    "empleadoID": "400",
+    "empleadoID": 400,
     "nombre": "Julia",
-    "apellido": "Sánchez",
-    "dni": "45645678",
-    "correoElectronico": "julia.sanchez@example.com",
-    "telefono": "4444444444",
-    "usuario": "julia.sanchez",
-    "contrasena": "password123",
-    "rol": "agente_inmobiliario",
-    "foto": null
+    "apellido": "Sanchez"
   },
   {
-    "empleadoID": "500",
+    "empleadoID": 500,
     "nombre": "Emir",
-    "apellido": "García",
-    "dni": "56756789",
-    "correoElectronico": "emir.garcia@example.com",
-    "telefono": "5555555555",
-    "usuario": "emir.garcia",
-    "contrasena": "password123",
-    "rol": "administrativo",
-    "foto": null
+    "apellido": "Garcia"
   },
   {
-    "empleadoID": "600",
+    "empleadoID": 600,
     "nombre": "Haydee",
-    "apellido": "Fernández",
-    "dni": "67867890",
-    "correoElectronico": "haydee.fernandez@example.com",
-    "telefono": "6666666666",
-    "usuario": "haydee.fernandez",
-    "contrasena": "password123",
-    "rol": "supervisor",
-    "foto": null
+    "apellido": "Fernandez"
   },
   {
-    "empleadoID": "700",
+    "empleadoID": 700,
     "nombre": "Enzo",
-    "apellido": "Pereyra",
-    "dni": "78978901",
-    "correoElectronico": "enzo.pereyra@example.com",
-    "telefono": "7777777777",
-    "usuario": "enzo.pereyra",
-    "contrasena": "password123",
-    "rol": "agente_inmobiliario",
-    "foto": null
+    "apellido": "Pereyra"
   },
   {
-    "empleadoID": "800",
+    "empleadoID": 800,
     "nombre": "Diana",
-    "apellido": "Suárez",
-    "dni": "89089012",
-    "correoElectronico": "diana.suarez@example.com",
-    "telefono": "8888888888",
-    "usuario": "diana.suarez",
-    "contrasena": "password123",
-    "rol": "administrativo",
-    "foto": null
+    "apellido": "Suarez"
   },
   {
-    "empleadoID": "900",
+    "empleadoID": 900,
     "nombre": "Mario",
-    "apellido": "Procopio",
-    "dni": "90190123",
-    "correoElectronico": "mario.procopio@example.com",
-    "telefono": "9999999999",
-    "usuario": "mario.procopio",
-    "contrasena": "password123",
-    "rol": "administrador",
-    "foto": null
+    "apellido": "Procopio"
+  },
+  {
+    "empleadoID": 1000,
+    "nombre": "Celeste",
+    "apellido": "Maidana"
+  },
+  {
+    "empleadoID": 1100,
+    "nombre": "manu",
+    "apellido": "corre",
+    "dni": "3393241",
+    "telefono": "1199991199",
+    "email": "m@m.com",
+    "foto": "/public/uploads/foto-1747836311909.jpeg",
+    "rol": "empleado"
+  },
+  {
+    "empleadoID": "1101",
+    "nombre": "Anas",
+    "apellido": "admin2",
+    "dni": "11111",
+    "correoElectronico": "admin@admin.com",
+    "telefono": "11111",
+    "usuario": "admin",
+    "contrasena": "admin",
+    "rol": "empleado",
+    "foto": ""
   }
 ]

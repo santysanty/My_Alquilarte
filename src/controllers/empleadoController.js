@@ -1,21 +1,21 @@
 // src/controllers/empleadoController.js
+import Usuario from '../models/Usuario.js'; // asegúrate de tener esta importación
 
-import Empleado from '../models/Empleado.js'; // Asegúrate de que esta ruta sea correcta
-import { readJsonFile, writeJsonFile } from '../utils/jsonHandler.js'; // Asegúrate de que esta ruta sea correcta
-import { generateUniqueId } from '../utils/idGenerator.js'; // Asegúrate de que este archivo exista y exporte generateUniqueId
+import Empleado from '../models/Empleado.js';
+import { readJsonFile, writeJsonFile } from '../utils/jsonHandler.js';
+import { generateUniqueId } from '../utils/idGenerator.js';
 
-const EMPLEADOS_FILE = 'empleados.json'; // Nombre del archivo JSON para empleados
+const EMPLEADOS_FILE = 'empleados.json';
+const TAREAS_FILE = 'tareas.json';
 
-// --- FUNCIONES DEL CONTROLADOR ---
 
-// 1. Mostrar la lista de todos los empleados (GET /cuenta o GET /empleados si lo usas en ruta)
 export const getAllEmpleados = async (req, res) => {
     console.log('empleadoController: getAllEmpleados llamado.');
     try {
         const empleados = await readJsonFile(EMPLEADOS_FILE);
 
-        // Implementación de filtros (similar a tareas)
         const filtroRol = req.query.filtroRol || '';
+        const filtroSubrol = req.query.filtroSubrol || '';
         const busquedaEmpleado = req.query.busquedaEmpleado ? req.query.busquedaEmpleado.toLowerCase() : '';
 
         let empleadosFiltrados = empleados;
@@ -23,6 +23,12 @@ export const getAllEmpleados = async (req, res) => {
         if (filtroRol) {
             empleadosFiltrados = empleadosFiltrados.filter(
                 empleado => empleado.rol && empleado.rol.toLowerCase() === filtroRol.toLowerCase()
+            );
+        }
+
+        if (filtroSubrol) {
+            empleadosFiltrados = empleadosFiltrados.filter(
+                empleado => empleado.subrol && empleado.subrol.toLowerCase() === filtroSubrol.toLowerCase()
             );
         }
 
@@ -36,11 +42,11 @@ export const getAllEmpleados = async (req, res) => {
             );
         }
 
-        // Renderiza la vista listaEmpleados.pug
         res.render('listaEmpleados', {
             empleados: empleadosFiltrados,
-            filtroRol: filtroRol,
-            busquedaEmpleado: busquedaEmpleado
+            filtroRol,
+            filtroSubrol,
+            busquedaEmpleado
         });
     } catch (error) {
         console.error('empleadoController: Error al obtener empleados:', error);
@@ -48,62 +54,75 @@ export const getAllEmpleados = async (req, res) => {
     }
 };
 
-// 2. Mostrar el formulario para crear un nuevo empleado (GET /cuenta/nuevo)
 export const showNewEmpleadoForm = (req, res) => {
     console.log('empleadoController: showNewEmpleadoForm llamado.');
-    // Renderiza la vista nuevoEmpleado.pug
     res.render('nuevoEmpleado');
 };
 
-// 3. Crear un nuevo empleado (POST /cuenta/nuevo)
 export const createEmpleado = async (req, res) => {
-    console.log('empleadoController: createEmpleado llamado.');
-    try {
-        const empleados = await readJsonFile(EMPLEADOS_FILE);
-        const { nombre, apellido, dni, correoElectronico, telefono, usuario, contrasena, rol } = req.body;
+  console.log('empleadoController: createEmpleado llamado.');
+  try {
+    const empleados = await readJsonFile(EMPLEADOS_FILE);
+    const { nombre, apellido, dni, correoElectronico, telefono, usuario, contrasena, rol, subrol } = req.body;
 
-        // Generar un ID único para el nuevo empleado
-        const empleadoID = generateUniqueId(); // Usamos la función importada
+    // 1. Primero generamos el ID
+    const empleadoID = await generateUniqueId(); 
 
-        const newEmpleado = new Empleado(
-            empleadoID,
-            nombre,
-            apellido,
-            dni,
-            correoElectronico,
-            telefono,
-            usuario,
-            contrasena, // En un entorno real, la contraseña se hashearía aquí
-            rol
-            // La foto se manejaría con Multer si se implementa la subida de archivos
-        );
+    // 2. Creamos el nuevo Empleado
+    const newEmpleado = new Empleado(
+      empleadoID,
+      nombre,
+      apellido,
+      dni,
+      correoElectronico,
+      telefono,
+      usuario,
+      contrasena,
+      rol,
+      subrol,
+      req.file ? `/public/uploads/${req.file.filename}` : ''
+    );
+    empleados.push(newEmpleado);
+    await writeJsonFile(EMPLEADOS_FILE, empleados);
 
-        empleados.push(newEmpleado);
-        await writeJsonFile(EMPLEADOS_FILE, empleados);
+    // 3. Registramos también como Usuario
+    const usuarios = await readJsonFile('usuarios.json');
+    const newUsuario = new Usuario(
+      empleadoID,
+      nombre,
+      apellido,
+      dni,
+      correoElectronico,
+      telefono,
+      usuario,
+      contrasena,
+      rol,
+      subrol,
+      req.file ? `/public/uploads/${req.file.filename}` : ''
+    );
+    usuarios.push(newUsuario);
+    await writeJsonFile('usuarios.json', usuarios);
 
-        console.log(`empleadoController: Empleado ${newEmpleado.nombre} ${newEmpleado.apellido} creado con ID: ${empleadoID}`);
-        res.redirect('/cuenta'); // Redirige a la lista de empleados después de crear
-    } catch (error) {
-        console.error('empleadoController: Error al crear empleado:', error);
-        res.status(500).render('error', { mensaje: 'Error interno del servidor al crear el empleado.' });
-    }
+    console.log(`Empleado ${nombre} ${apellido} creado con ID: ${empleadoID}`);
+    res.redirect('/empleados');
+  } catch (error) {
+    console.error('Error al crear empleado:', error);
+    res.status(500).render('error', { mensaje: 'Error interno del servidor al crear el empleado.' });
+  }
 };
 
-// 4. Mostrar el formulario de edición de un empleado específico (GET /cuenta/:id/editar)
+
 export const showEditEmpleadoForm = async (req, res) => {
     console.log(`empleadoController: showEditEmpleadoForm llamado para ID: ${req.params.id}`);
     try {
         const empleados = await readJsonFile(EMPLEADOS_FILE);
-        const empleadoIdToEdit = req.params.id;
-        // Importante: Asegúrate de que el ID del JSON sea del mismo tipo que req.params.id (string vs number)
-        const empleado = empleados.find(emp => String(emp.empleadoID) === String(empleadoIdToEdit));
+        const empleado = empleados.find(emp => String(emp.empleadoID) === String(req.params.id));
 
         if (!empleado) {
-            console.warn(`empleadoController: Empleado con ID ${empleadoIdToEdit} no encontrado para edición.`);
+            console.warn(`empleadoController: Empleado con ID ${req.params.id} no encontrado para edición.`);
             return res.status(404).render('error', { mensaje: 'Empleado no encontrado.' });
         }
 
-        // Renderiza la vista editarEmpleado.pug, pasándole el objeto empleado
         res.render('editarEmpleado', { empleado });
     } catch (error) {
         console.error('empleadoController: Error al mostrar formulario de edición de empleado:', error);
@@ -111,68 +130,88 @@ export const showEditEmpleadoForm = async (req, res) => {
     }
 };
 
-// 5. Actualizar un empleado existente (POST /cuenta/:id/editar)
 export const updateEmpleado = async (req, res) => {
-    console.log(`empleadoController: updateEmpleado llamado para ID: ${req.params.id}`);
-    try {
-        let empleados = await readJsonFile(EMPLEADOS_FILE);
-        const empleadoIdToUpdate = req.params.id;
-        const { nombre, apellido, dni, correoElectronico, telefono, usuario, contrasena, rol } = req.body;
+  console.log(`empleadoController: updateEmpleado llamado para ID: ${req.params.id}`);
+  try {
+    let empleados = await readJsonFile(EMPLEADOS_FILE);
 
-        const index = empleados.findIndex(emp => String(emp.empleadoID) === String(empleadoIdToUpdate));
-
-        if (index === -1) {
-            console.warn(`empleadoController: Empleado con ID ${empleadoIdToUpdate} no encontrado para actualizar.`);
-            return res.status(404).render('error', { mensaje: 'Empleado no encontrado para actualizar.' });
-        }
-
-        // Actualizar solo los campos que vienen en el body, manteniendo los existentes
-        // y manejando la contraseña si se proporciona una nueva
-        empleados[index].nombre = nombre;
-        empleados[index].apellido = apellido;
-        empleados[index].dni = dni;
-        empleados[index].correoElectronico = correoElectronico;
-        empleados[index].telefono = telefono;
-        empleados[index].usuario = usuario;
-        // Solo actualiza la contraseña si se envió una nueva
-        if (contrasena && contrasena.trim() !== '') {
-            empleados[index].contrasena = contrasena; // En un entorno real, hashear la nueva contraseña
-        }
-        empleados[index].rol = rol;
-        // Si hay lógica de foto, iría aquí
-
-        await writeJsonFile(EMPLEADOS_FILE, empleados);
-
-        console.log(`empleadoController: Empleado con ID ${empleadoIdToUpdate} actualizado.`);
-        res.redirect('/cuenta'); // Redirige a la lista de empleados después de actualizar
-    } catch (error) {
-        console.error('empleadoController: Error al actualizar empleado:', error);
-        res.status(500).render('error', { mensaje: 'Error interno del servidor al actualizar el empleado.' });
+    if (!Array.isArray(empleados)) {
+      console.error('Error: El archivo de empleados no contiene un array válido.');
+      return res.status(500).render('error', { mensaje: 'Datos corruptos. No se pudo actualizar.' });
     }
+
+    const index = empleados.findIndex(emp => String(emp.empleadoID) === String(req.params.id));
+
+    if (index === -1) {
+      console.warn(`Empleado con ID ${req.params.id} no encontrado para actualizar.`);
+      return res.status(404).render('error', { mensaje: 'Empleado no encontrado.' });
+    }
+
+    const { nombre, apellido, dni, correoElectronico, telefono, usuario, contrasena, rol, subrol } = req.body;
+
+    empleados[index] = {
+      ...empleados[index], // conserva datos anteriores
+      nombre,
+      apellido,
+      dni,
+      correoElectronico,
+      telefono,
+      usuario,
+      rol,
+      subrol,
+      contrasena: contrasena && contrasena.trim() !== '' ? contrasena : empleados[index].contrasena,
+      foto: req.file ? `/public/uploads/${req.file.filename}` : empleados[index].foto
+    };
+
+    await writeJsonFile(EMPLEADOS_FILE, empleados);
+    console.log(`Empleado con ID ${req.params.id} actualizado correctamente.`);
+    res.redirect('/empleados');
+
+  } catch (error) {
+    console.error('Error al actualizar empleado:', error);
+    res.status(500).render('error', { mensaje: 'Error interno del servidor al actualizar el empleado.' });
+  }
 };
 
-// 6. Eliminar un empleado (DELETE /cuenta/:id/eliminar)
+
 export const deleteEmpleado = async (req, res) => {
     console.log(`empleadoController: deleteEmpleado llamado para ID: ${req.params.id}`);
     try {
         let empleados = await readJsonFile(EMPLEADOS_FILE);
-        const empleadoIdToDelete = req.params.id;
-
-        // Filtra el array para excluir el empleado con el ID especificado
         const initialLength = empleados.length;
-        empleados = empleados.filter(emp => String(emp.empleadoID) !== String(empleadoIdToDelete));
+        empleados = empleados.filter(emp => String(emp.empleadoID) !== String(req.params.id));
 
         if (empleados.length === initialLength) {
-            console.warn(`empleadoController: Empleado con ID ${empleadoIdToDelete} no encontrado para eliminar.`);
+            console.warn(`empleadoController: Empleado con ID ${req.params.id} no encontrado para eliminar.`);
             return res.status(404).render('error', { mensaje: 'Empleado no encontrado para eliminar.' });
         }
 
         await writeJsonFile(EMPLEADOS_FILE, empleados);
 
-        console.log(`empleadoController: Empleado con ID ${empleadoIdToDelete} eliminado.`);
-        res.redirect('/cuenta'); // Redirige a la lista de empleados después de eliminar
+        console.log(`empleadoController: Empleado con ID ${req.params.id} eliminado.`);
+        res.redirect('/empleados');
     } catch (error) {
         console.error('empleadoController: Error al eliminar empleado:', error);
         res.status(500).render('error', { mensaje: 'Error interno del servidor al eliminar el empleado.' });
     }
 };
+
+export const showEmpleadoDetail = async (req, res) => {
+    try {
+        const empleados = await readJsonFile(EMPLEADOS_FILE);
+        const tareas = await readJsonFile(TAREAS_FILE);
+
+        const id = parseInt(req.params.id);
+        const empleado = empleados.find(e => String(e.empleadoID) === String(req.params.id));
+
+        if (!empleado) return res.status(404).render('error', { mensaje: 'Empleado no encontrado' });
+
+        const tareasAsignadas = tareas.filter(t => t.empleadoId === id);
+
+        res.render('detalleEmpleado', { empleado, tareas: tareasAsignadas });
+    } catch (error) {
+        console.error('Error al mostrar detalle del empleado:', error);
+        res.status(500).render('error', { mensaje: 'Error interno del servidor al mostrar detalle del empleado.' });
+    }
+};
+
