@@ -1,7 +1,7 @@
 [
   {
     "tareaID": 3,
-    "titulo": "Reparar fuga de agua en baños",
+    "titulo": "Reparar fuga de agua en baño",
     "descripcion": "Arreglar la fuga de agua en el inodoro del departamento 5A. Posiblemente sea la válvula de flotador.",
     "estado": "completada",
     "prioridad": "alta",
@@ -104,6 +104,18 @@
     "fecha": "2025-06-02",
     "area": "Ventas",
     "empleadoId": 100,
+    "informe": "",
+    "finalizada": false
+  },
+  {
+    "tareaID": 403,
+    "titulo": "Ganancia neta",
+    "descripcion": "contar ganancia neta por alquiler",
+    "estado": "pendiente",
+    "prioridad": "alta",
+    "fecha": "2025-06-04",
+    "area": "Contabilidad",
+    "empleadoId": 1102,
     "informe": "",
     "finalizada": false
   }
