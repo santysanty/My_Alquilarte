@@ -5,8 +5,8 @@ import Empleado from '../models/Empleado.js';
 import { readJsonFile, writeJsonFile } from '../utils/jsonHandler.js';
 import { generateUniqueId } from '../utils/idGenerator.js';
 
-const EMPLEADOS_FILE = 'empleados.json';
-const TAREAS_FILE = 'tareas.json';
+const EMPLEADOS_FILE = 'empleados.json';//Base de empleados
+const TAREAS_FILE = 'tareas.json';//Base de Tarea
 
 
 export const getAllEmpleados = async (req, res) => {
@@ -150,7 +150,7 @@ export const updateEmpleado = async (req, res) => {
     const { nombre, apellido, dni, correoElectronico, telefono, usuario, contrasena, rol, subrol } = req.body;
 
     empleados[index] = {
-      ...empleados[index], // conserva datos anteriores
+      ...empleados[index], 
       nombre,
       apellido,
       dni,

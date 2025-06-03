@@ -81,13 +81,14 @@
   {
     "empleadoID": "1102",
     "nombre": "Daniel",
-    "apellido": "Coria",
+    "apellido": "Correa",
     "dni": "98765432",
-    "correoElectronico": "daniel@example.com",
-    "telefono": "123456789",
-    "usuario": "dcoria",
-    "contrasena": "mypass123",
+    "correoElectronico": "danielcorrea@example.com",
+    "telefono": "987123456",
+    "usuario": "dcorrea",
+    "contrasena": "nuevaClave456",
     "rol": "empleado",
-    "foto": ""
+    "foto": "",
+    "subrol": "supervisor"
   }
 ]

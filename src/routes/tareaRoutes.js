@@ -1,12 +1,9 @@
 import express from 'express';
 import * as tareaController from '../controllers/tareaController.js'; // Importa todas las exports
-// No necesitas importar methodOverride aquí si ya lo estás aplicando a nivel de aplicación (en app.js)
-// import methodOverride from 'method-override'; // ELIMINA ESTA LÍNEA
+
 
 const router = express.Router();
 
-// Middleware para permitir _method en formularios (generalmente, se aplica a nivel de app.js)
-// router.use(methodOverride('_method')); // ELIMINA ESTA LÍNEA si ya está en app.js
 
 // Rutas del CRUD de Tareas
 console.log('tareaRoutes.js: Configurando ruta GET /tareas'); // Nuevo log
@@ -27,7 +24,7 @@ console.log('tareaRoutes.js: Configurando ruta POST /tareas/:id/editar'); // **L
 router.post('/:id/editar', tareaController.updateTarea); // POST para actualizar tarea (simula PUT)
 
 
-// Para la eliminación, puedes usar un formulario POST con _method=DELETE
+
 console.log('tareaRoutes.js: Configurando ruta DELETE /tareas/:id/eliminar'); // **LOG Y RUTA ACTUALIZADOS**
 router.delete('/:id/eliminar', tareaController.deleteTarea); // **¡CAMBIO CLAVE AQUÍ: de POST a DELETE!**
 // Ver detalle de una tarea

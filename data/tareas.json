@@ -118,5 +118,17 @@
     "empleadoId": 1102,
     "informe": "",
     "finalizada": false
+  },
+  {
+    "tareaID": 404,
+    "titulo": "Administracion",
+    "descripcion": "Contratos",
+    "estado": "en progreso",
+    "prioridad": "media",
+    "fecha": "2025-06-13",
+    "area": "Administración",
+    "empleadoId": 1102,
+    "informe": "",
+    "finalizada": false
   }
 ]

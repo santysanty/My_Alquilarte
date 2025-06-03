@@ -39,7 +39,7 @@ app.set('views', path.join(__dirname, '../views'));
 app.use('/usuario', usuarioRoutes);      // CRUD + login + inicio en uno solo
 app.use('/empleados', empleadoRoutes);
 app.use('/tareas', tareaRoutes);
-app.use('/', usuarioRoutes);             // fallback/redirección
+app.use('/', usuarioRoutes);             //login
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

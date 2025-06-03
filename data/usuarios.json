@@ -43,14 +43,14 @@
   {
     "usuarioID": "1101",
     "id": "1101",
-    "nombre": "Anas",
+    "nombre": "Ana",
     "apellido": "admin2",
     "dni": "11111",
     "correoElectronico": "admin@admin.com",
     "telefono": "11111",
     "usuario": "admin",
     "contrasena": "admin",
-    "rol": "Inquilino",
+    "rol": "empleado",
     "subrol": "administrativo",
     "foto": ""
   },

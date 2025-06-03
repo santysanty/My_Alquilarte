@@ -4,14 +4,14 @@
 import Tarea from '../models/Tarea.js';
 import { readJsonFile, writeJsonFile } from '../utils/jsonHandler.js';
 
-// Define SOLO el nombre del archivo JSON. La ruta completa a la carpeta 'data' es manejada por jsonHandler.js
+
 const DB_TAREAS_FILENAME = 'tareas.json';
 
 // Función auxiliar para leer todas las tareas
 const getTareasData = async () => {
-    let tareas = []; // <--- AÑADE ESTA LÍNEA: Inicializa tareas a un array vacío
+    let tareas = []; 
     try {
-        // Usa el nombre del archivo aquí
+
         tareas = await readJsonFile(DB_TAREAS_FILENAME);
         return Array.isArray(tareas) ? tareas : [];
     } catch (error) {

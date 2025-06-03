@@ -1,8 +1,8 @@
 // src/controllers/authController.js
 
-import { readJsonFile } from '../utils/jsonHandler.js'; // Importa tus funciones de manejo de JSON
-import path from 'path'; // Para construir la ruta absoluta al JSON
-import { fileURLToPath } from 'url'; // Para __dirname en ES Modules
+import { readJsonFile } from '../utils/jsonHandler.js'; 
+import path from 'path'; 
+import { fileURLToPath } from 'url'; 
 
 // Configuración para __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -10,13 +10,11 @@ const __dirname = path.dirname(__filename);
 
 // Define la ruta a tu archivo de usuarios.json de forma robusta
 const DB_USUARIOS = path.join(__dirname, '..', '..', 'data', 'usuarios.json'); 
-// La ruta '../data/usuarios.json' sería relativa a este archivo. 
-// path.join(__dirname, '..', '..', 'data', 'usuarios.json') asegura que siempre apunte a data/usuarios.json desde la raíz del proyecto.
 
 
 // Función para renderizar la vista de login
 export const renderLogin = (req, res) => {
-    res.render('login'); // Asegúrate de tener 'login.pug' en tu carpeta views
+    res.render('login'); 
 };
 
 // Función para procesar el intento de login
@@ -30,7 +28,7 @@ export const processLogin = async (req, res) => {
         if (!encontrado) {
             // Si no se encuentra el usuario o las credenciales son incorrectas
             return res.status(401).render('errorLogin', { mensaje: 'Credenciales incorrectas. Inténtalo de nuevo.' });
-            // Asegúrate de tener 'errorLogin.pug' en tu carpeta views
+            
         }
 
         // Si las credenciales son correctas, redirige según el rol
@@ -57,9 +55,3 @@ export const processLogin = async (req, res) => {
     }
 };
 
-// Puedes añadir otras funciones relacionadas con la autenticación aquí si las necesitas
-// Por ejemplo:
-// export const logout = (req, res) => {
-//     // Lógica para cerrar sesión (para futura entrega con sesiones)
-//     res.redirect('/login');
-// };
