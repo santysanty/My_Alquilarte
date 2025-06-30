@@ -1,0 +1,103 @@
+extends ../layouts/layoutLogin
+block content
+  .container.d-flex.justify-content-center.align-items-center.min-vh-100
+    .card.p-4.shadow-lg(style="width: 25rem;")
+      h2.card-title.text-center.mb-4 Iniciar Sesión
+
+      // Contenedor para mensajes de éxito (ej. restablecimiento de contraseña exitoso)
+      if resetSuccess
+        .alert.alert-success.text-center #{resetSuccess}
+
+      // Contenedor para mensajes de error (ej. token de restablecimiento inválido)
+      if resetError
+        .alert.alert-danger.text-center #{resetError}
+
+      // Contenedor para mensajes de error del formulario de login
+      #errorMessage.alert.alert-danger(role="alert" style="display:none;") 
+      
+      form#loginForm
+        .mb-3
+          label.form-label(for="email") Email:
+          input.form-control(type="email", id="email", name="email", required)
+        .mb-3
+          label.form-label(for="password") Contraseña:
+          input.form-control(type="password", id="password", name="password", required)
+        
+        button.btn.btn-primary.w-100(type="submit") Iniciar Sesión
+        
+        .mt-3.text-center
+          p ¿Olvidaste tu contraseña? #[a(href="/forgot-password") Haz clic aquí]
+        .mt-2.text-center
+          p ¿No tienes una cuenta? #[a(href="/register") Regístrate aquí]
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('¡El JavaScript de login se está ejecutando en el DOMContentLoaded!');
+
+      const loginForm = document.getElementById('loginForm');
+      const errorMessageDiv = document.getElementById('errorMessage');
+
+      // Función para mostrar mensajes de error
+      const displayErrorMessage = (message) => {
+        errorMessageDiv.textContent = message;
+        errorMessageDiv.style.display = 'block';
+      };
+
+      if (loginForm) {
+        console.log('Formulario de login encontrado.');
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          console.log('Evento submit del formulario detectado. Prevención del default.');
+
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+
+          console.log('Email:', email);
+          errorMessageDiv.style.display = 'none';
+          errorMessageDiv.textContent = '';
+
+          try {
+            const response = await fetch('/api/auth/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include', // Importante para que las cookies sean enviadas y recibidas
+              body: JSON.stringify({ email, password }),
+            });
+
+            console.log('Respuesta de la API recibida. Status:', response.status);
+            const data = await response.json(); 
+            console.log('Datos de la respuesta (data):', data);
+
+            if (response.ok) {
+              console.log('Login exitoso (response.ok es true).');
+              // El token se maneja con cookies HTTP-only, no necesitamos guardarlo en localStorage en el cliente.
+              // La redirección es lo importante aquí.
+              console.log('Redirigiendo a:', data.redirectTo);
+              window.location.href = data.redirectTo; // Redirección basada en el rol del usuario
+
+            } else {
+              console.error('Error de login (response.ok es false):', data.message || 'Error desconocido del servidor.');
+              
+              if (data.needsVerification && data.redirectTo) {
+                // Si la cuenta necesita verificación, redirige a la página de verificación de código
+                displayErrorMessage(data.message || 'Tu cuenta no está verificada. Redirigiendo para verificación...');
+                setTimeout(() => {
+                  window.location.href = data.redirectTo; // e.g., /verify-code?email=...
+                }, 1500); // Pequeño retraso antes de redirigir
+              } else {
+                // Muestra el mensaje de error general
+                displayErrorMessage(data.message || 'Credenciales inválidas.');
+              }
+            }
+          } catch (error) {
+            console.error('Error de red o del servidor (catch):', error);
+            displayErrorMessage('Error de conexión con el servidor. Inténtalo de nuevo.');
+          }
+        });
+      } else {
+        console.error('ERROR: El formulario de login con ID "loginForm" no fue encontrado.');
+      }
+    });

@@ -1,0 +1,17 @@
+extends ../layout.pug
+block content
+  .container.my-5
+    .row.justify-content-center
+      .col-md-6
+        .card.p-4.shadow-sm
+          h2.card-title.text-center.mb-4.text-danger= title || 'Error'
+          p.card-text.text-center= message || 'Ha ocurrido un error inesperado.'
+          
+          // Solo mostrar detalles del error en entorno de desarrollo
+          if errorDetails && process.env.NODE_ENV === 'development'
+            div.alert.alert-warning.mt-3
+              h5 Detalles Técnicos:
+              pre.text-danger.small= errorDetails
+
+          .text-center.mt-4
+            a.btn.btn-primary(href='/login') Volver al Inicio de Sesión

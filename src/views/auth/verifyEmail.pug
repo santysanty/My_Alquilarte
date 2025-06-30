@@ -1,0 +1,18 @@
+extends ../layouts/layoutLogin.pug
+block content
+  .auth-container
+    h2 Verificación de Correo
+
+    if verificationSuccess
+      p.text-green-600 Tu correo ha sido verificado correctamente. Ya podés iniciar sesión.
+      a.mt-4(href='/login', class='text-blue-500 hover:text-blue-800') Iniciar sesión
+    else
+      p.text-red-600 El código de verificación es inválido o ha expirado.
+      p.mt-4.text-gray-600
+        | Si el enlace no funciona o ha expirado, por favor
+        a(href='/register', class='text-blue-500 hover:text-blue-800') regístrate de nuevo
+        | o solicita un nuevo código.
+
+block scripts
+  script.
+    // No hay scripts por ahora, pero se deja el bloque para compatibilidad

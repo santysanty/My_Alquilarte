@@ -1,0 +1,59 @@
+//- views/detalleEmpleado.pug
+extends layoutAdmin.pug
+
+block contenido
+  .container.mt-5
+    h2.mb-4.text-primary Detalle del Empleado
+
+    .card.shadow.mb-4
+      .card-body
+        .row
+          .col-md-6
+            ul.list-group.list-group-flush
+              li.list-group-item
+                strong ID: 
+                |  #{empleado.empleadoID}
+              li.list-group-item
+                strong Nombre: 
+                |  #{empleado.nombre}
+              li.list-group-item
+                strong Apellido: 
+                |  #{empleado.apellido}
+              li.list-group-item
+                strong Usuario: 
+                |  #{empleado.usuario}
+              li.list-group-item
+                strong Rol: 
+                |  #{empleado.rol}
+              li.list-group-item
+                strong SubRol: 
+                |  #{empleado.subrol}
+          .col-md-6
+            ul.list-group.list-group-flush
+              li.list-group-item
+                strong DNI: 
+                |  #{empleado.dni}
+              li.list-group-item
+                strong Teléfono: 
+                |  #{empleado.telefono}
+              li.list-group-item
+                strong Correo Electrónico: 
+                |  #{empleado.correoElectronico}
+
+    if tareas.length
+      .card.shadow.mb-4
+        .card-header.bg-light
+          h4.mb-0.text-success Tareas Asignadas
+        .card-body.p-0
+          ul.list-group.list-group-flush
+            each tarea in tareas
+              li.list-group-item
+                h6.mb-1.text-dark #{tarea.titulo}
+                small.text-muted Estado: #{tarea.estado} – Fecha: #{tarea.fecha}
+    else
+      .alert.alert-warning.mt-4
+        | Este empleado no tiene tareas asignadas.
+
+    a.btn.btn-outline-secondary.mt-4(href="/empleados")
+      i.fa.fa-arrow-left.me-1
+      | Volver a la lista

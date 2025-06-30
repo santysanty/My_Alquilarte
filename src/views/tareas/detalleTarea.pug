@@ -1,0 +1,48 @@
+extends layoutAdmin.pug
+
+block contenido
+  .container.mt-5
+    .card.shadow-sm
+      .card-header.bg-primary.text-white
+        h3.mb-0 Detalle de la Tarea
+
+      .card-body
+        dl.row
+          dt.col-sm-4 ID
+          dd.col-sm-8 #{tarea.tareaID}
+
+          dt.col-sm-4 Título
+          dd.col-sm-8 #{tarea.titulo}
+
+          dt.col-sm-4 Descripción
+          dd.col-sm-8 #{tarea.descripcion}
+
+          dt.col-sm-4 Estado
+          dd.col-sm-8 
+            span.badge(
+              class=`badge rounded-pill bg-${tarea.estado === 'completada' ? 'success' : tarea.estado === 'en progreso' ? 'warning' : 'secondary'}`
+            ) #{tarea.estado}
+
+          dt.col-sm-4 Prioridad
+          dd.col-sm-8 
+            span.badge(
+              class=`badge rounded-pill bg-${tarea.prioridad === 'alta' ? 'danger' : tarea.prioridad === 'media' ? 'warning' : 'info'}`
+            ) #{tarea.prioridad}
+
+          dt.col-sm-4 Fecha
+          dd.col-sm-8 #{tarea.fecha}
+
+          dt.col-sm-4 Área
+          dd.col-sm-8 #{tarea.area}
+
+          dt.col-sm-4 Empleado Asignado
+          dd.col-sm-8 #{tarea.empleadoId || 'No asignado'}
+
+          if tarea.informe
+            dt.col-sm-4 Informe
+            dd.col-sm-8.pre-wrap #{tarea.informe}
+
+    .mt-4.text-end
+      a.btn.btn-secondary(href="/tareas")
+        i.fas.fa-arrow-left.me-1
+        | Volver a la lista

@@ -1,0 +1,81 @@
+.container.mt-3
+  h4.text-success Mapa de Propiedades
+  p.text-muted Propiedades activas visualizadas geográficamente
+
+  #mapa(style="height: 600px;")
+
+block scripts
+  // Leaflet CSS
+  link(rel="stylesheet", href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css")
+
+  // Leaflet JS
+  script(src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
+
+  // ✅ Inyectar propiedades desde el backend
+  script(type="text/javascript").
+    window.propiedades = !{JSON.stringify(propiedades || [])};
+
+  // Script para inicializar el mapa
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('[MAPA] Propiedades cargadas:', window.propiedades);
+
+      let map;
+      let initialized = false;
+
+      const mapaTabButton = document.getElementById('mapa-tab');
+      const mapaTabContent = document.getElementById('mapa');
+
+      function initMap() {
+        if (initialized || !mapaTabContent) return;
+
+        if (map) {
+          map.remove(); // ✅ Evita error de "Map container is already initialized"
+        }
+
+        map = L.map('mapa').setView([-34.6, -58.38], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        if (Array.isArray(window.propiedades)) {
+          window.propiedades.forEach(p => {
+            if (p.lat && p.lng) {
+              const popup = `
+                <strong>${p.titulo}</strong><br>
+                ${p.direccion || ''}<br>
+                <span>${p.precio} ${p.moneda}</span><br>
+                <img src="${p.imagenUrl}" style="width: 100%; max-width: 200px;">
+              `;
+              L.marker([p.lat, p.lng]).addTo(map).bindPopup(popup);
+            }
+          });
+        }
+
+        initialized = true;
+      }
+
+      if (!mapaTabButton) {
+        console.warn('[MAPA] No se encontró el botón con ID "mapa-tab"');
+        return;
+      }
+
+      mapaTabButton.addEventListener('shown.bs.tab', () => {
+        if (!initialized) {
+          initMap();
+        } else {
+          setTimeout(() => {
+            map.invalidateSize();
+          }, 300);
+        }
+      });
+
+      // Si ya está activa al cargar
+      if (mapaTabButton.classList.contains('active')) {
+        setTimeout(() => {
+          initMap();
+          map.invalidateSize();
+        }, 500);
+      }
+    });

@@ -1,0 +1,152 @@
+extends ../layouts/layoutLogin.pug
+block content
+  div.container.mx-auto.p-4.flex.justify-center.items-center.min-h-screen
+    div.w-full.max-w-md.bg-white.shadow-md.rounded-lg.p-6.text-center
+      h2.text-2xl.font-bold.mb-6.text-gray-800 Verificar Código
+
+      // Área para mostrar mensajes de éxito o error al usuario
+      #message-area.mb-4(style='display:none;')
+        div#success-message.bg-green-100.border.border-green-400.text-green-700.px-4.py-3.rounded.relative(role='alert' style='display:none;')
+          span#success-text
+        div#error-message.bg-red-100.border.border-red-400.text-red-700.px-4.py-3.rounded.relative(role='alert' style='display:none;')
+          span#error-text
+
+      form#verifyCodeForm.space-y-4(method='POST', action='/api/auth/verify-code')
+        div
+          label.block.text-gray-700.text-sm.font-bold.mb-2(for='email') Email:
+          input#email(type='email', name='email', placeholder='Ingresa tu email', required, readonly, value=(email || '') class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline')
+
+        div
+          label.block.text-gray-700.text-sm.font-bold.mb-2(for='code') Código de Verificación:
+          input#code(type='text', name='code', placeholder='Ingresa el código', required class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline')
+
+        div
+          button#submitBtn(type='submit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline') Verificar Código
+
+        p.mt-4.text-sm.text-gray-600 ¿No recibiste el código?
+          a#resendLink(href='#' class='text-blue-500 hover:text-blue-800 ml-1') Reenviar código
+
+      p.mt-4
+        a(href='/login' class='text-blue-500 hover:text-blue-800') Volver al Inicio de Sesión
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('verifyCodeForm');
+      const emailInput = document.getElementById('email');
+      const codeInput = document.getElementById('code');
+      const submitBtn = document.getElementById('submitBtn');
+      const resendLink = document.getElementById('resendLink');
+      const messageArea = document.getElementById('message-area');
+      const successMessage = document.getElementById('success-message');
+      const successText = document.getElementById('success-text');
+      const errorMessage = document.getElementById('error-message');
+      const errorText = document.getElementById('error-text');
+
+      // Obtener el email de la URL si existe (para precargar el campo)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('email')) {
+        emailInput.value = urlParams.get('email');
+      }
+
+      messageArea.style.display = 'none';
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        messageArea.style.display = 'none';
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verificando...';
+
+        const email = emailInput.value;
+        const code = codeInput.value;
+
+        try {
+          const response = await fetch('/api/auth/verify-code', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json' // ¡¡CRÍTICO: Especifica que esperas JSON!!
+            },
+            body: JSON.stringify({ email, code }),
+          });
+
+          // Siempre intenta parsear la respuesta como JSON
+          const data = await response.json();
+
+          if (response.ok) {
+            successText.textContent = data.message || 'Código verificado exitosamente. Redirigiendo...';
+            successMessage.style.display = 'block';
+            messageArea.style.display = 'block';
+
+            // Redirige usando el valor de redirectTo que viene del backend
+            if (data.redirectTo) {
+              window.location.href = data.redirectTo; 
+            } else {
+              // Fallback o mensaje si no hay redirectTo (aunque debería haberlo)
+              console.warn("Backend didn't provide a redirectTo URL.");
+              window.location.href = '/complete-profile'; // Redirección por defecto
+            }
+          } else {
+            // El servidor devolvió un error (ej. 400, 401, 500) y el cuerpo es JSON
+            errorText.textContent = data.message || 'Error al verificar el código.';
+            errorMessage.style.display = 'block';
+            messageArea.style.display = 'block';
+          }
+        } catch (error) {
+          // Error de red (fetch falló) o error al parsear el JSON (si el backend envió HTML)
+          console.error('Error al verificar código (frontend):', error);
+          errorText.textContent = 'Error de conexión o respuesta inesperada del servidor. Intenta de nuevo más tarde.';
+          errorMessage.style.display = 'block';
+          messageArea.style.display = 'block';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Verificar Código';
+        }
+      });
+
+      resendLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        messageArea.style.display = 'none';
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        resendLink.style.pointerEvents = 'none';
+        resendLink.textContent = 'Enviando...';
+
+        const email = emailInput.value;
+
+        try {
+          const response = await fetch('/api/auth/resend-verification-code', { // ¡URL corregida!
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json' // También importante para el reenvío
+            },
+            body: JSON.stringify({ email }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            successText.textContent = data.message || 'Nuevo código enviado exitosamente.';
+            successMessage.style.display = 'block';
+            messageArea.style.display = 'block';
+          } else {
+            errorText.textContent = data.message || 'Error al reenviar el código.';
+            errorMessage.style.display = 'block';
+            messageArea.style.display = 'block';
+          }
+        } catch (error) {
+          console.error('Error al reenviar código (frontend):', error);
+          errorText.textContent = 'Error de red al reenviar código. Intenta de nuevo más tarde.';
+          errorMessage.style.display = 'block';
+          messageArea.style.display = 'block';
+        } finally {
+          resendLink.style.pointerEvents = 'auto';
+          resendLink.textContent = 'Reenviar código';
+        }
+      });
+    });

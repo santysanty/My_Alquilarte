@@ -1,0 +1,79 @@
+extends ../layouts/layoutAdmin.pug
+
+block contenido
+  .container.mt-3
+    h4.text-success Mapa de Propiedades
+    p.text-muted Propiedades activas visualizadas geográficamente
+
+    #mapa(style="height: 600px;")
+
+block scripts
+  // Estilos Leaflet
+  link(rel="stylesheet", href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css")
+  // Script Leaflet
+  script(src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
+
+  extends ../layouts/layoutAdmin.pug
+
+block contenido
+  .container.mt-3
+    h4.text-success Mapa de Propiedades
+    p.text-muted Propiedades activas visualizadas geográficamente
+
+    #mapa(style="height: 600px;")
+
+block scripts
+  // Estilos Leaflet
+  link(rel="stylesheet", href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css")
+  // Script Leaflet
+  script(src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
+
+  // Mapa de propiedades
+  script.
+    class MapaPropiedades {
+      constructor(mapaId) {
+        this.mapaId = mapaId;
+        this.map = null;
+        this.initialized = false;
+        this.initMap();
+      }
+
+      async initMap() {
+        const mapaContainer = document.getElementById(this.mapaId);
+        if (this.initialized || !mapaContainer) return;
+
+        try {
+          const res = await fetch('/propiedad/api/propiedades');
+          const propiedades = await res.json();
+          console.log('[MAPA] Propiedades obtenidas:', propiedades);
+
+          this.map = L.map(this.mapaId).setView([-34.6, -58.38], 12);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+          }).addTo(this.map);
+
+          propiedades.forEach(p => {
+            if (p.lat && p.lng) {
+              const popup = `
+                <strong>${p.titulo}</strong><br>
+                ${p.direccion || ''}<br>
+                ${p.precio} ${p.moneda}<br>
+                ${p.imagenUrl ? `<img src="${p.imagenUrl}" style="width:100%; max-width:200px;">` : ''}
+              `;
+              L.marker([p.lat, p.lng]).addTo(this.map).bindPopup(popup);
+            }
+          });
+
+          this.initialized = true;
+          console.log('[MAPA] Mapa inicializado correctamente con marcadores.');
+        } catch (error) {
+          console.error('[MAPA] Error al cargar propiedades desde la API:', error);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('[MAPA] DOM completamente cargado.');
+      new MapaPropiedades('mapa');
+    });

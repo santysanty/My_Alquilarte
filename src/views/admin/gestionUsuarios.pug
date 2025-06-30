@@ -1,0 +1,127 @@
+// src/views/admin/gestionUsuarios.pug
+// Vista para la gestión de usuarios en el panel de administración
+
+// Contenedor para mensajes de la aplicación (alerts, success, error)
+div#appMessages.mb-3
+  // Los mensajes se insertarán aquí por JavaScript
+
+.card.shadow.mb-4
+  .card-header.bg-success.text-white.d-flex.justify-content-between.align-items-center
+    h4.mb-0 Gestión de Usuarios
+    span#userCounter.badge.bg-light.text-success 0 registrados
+
+  .card-body
+    // 1. Búsqueda y botón "Agregar Usuario"
+    .d-flex.justify-content-between.align-items-center.mb-3
+      .input-group.me-3
+        input.form-control#searchUsersInput(type="text", placeholder="Buscar usuario por nombre, email, DNI...", aria-label="Buscar usuario")
+        button.btn.btn-outline-secondary(type="button", aria-label="Buscar")
+          i.fas.fa-search
+      button.btn.btn-success#addUserBtn(type="button", aria-label="Agregar Usuario")
+        i.fas.fa-plus.me-1
+        | Agregar Usuario
+
+    // 2. Filtros por rol
+    .d-flex.gap-2.mb-3.flex-wrap(role="group", aria-label="Filtros por rol")
+      button.btn.btn-outline-primary.active#filterAllUsersBtn(type="button", data-role="", aria-pressed="true") Todos los usuarios
+      button.btn.btn-outline-primary#filterAdminBtn(type="button", data-role="admin", aria-pressed="false") Administradores
+      button.btn.btn-outline-primary#filterEmployeesBtn(type="button", data-role="empleado", aria-pressed="false") Empleados
+      button.btn.btn-outline-primary#filterTenantsBtn(type="button", data-role="inquilino", aria-pressed="false") Inquilinos
+      button.btn.btn-outline-primary#filterOwnersBtn(type="button", data-role="propietario", aria-pressed="false") Propietarios
+
+    // 3. Formulario colapsable para añadir/editar usuario
+    #userFormCollapse.collapse
+      .card.mb-4
+        .card-body
+          form#userForm
+            input(type="hidden", id="userId", name="userId")
+
+            .mb-3
+              label.form-label(for="username") Nombre de Usuario
+              input.form-control(type="text", id="username", name="username", required, autocomplete="username")
+            .mb-3
+              label.form-label(for="email") Email
+              input.form-control(type="email", id="email", name="email", required, autocomplete="email")
+            .mb-3
+              label.form-label(for="password") Contraseña
+              input.form-control(type="password", id="password", name="password", placeholder="Dejar vacío para no cambiar", autocomplete="new-password")
+            .mb-3
+              label.form-label(for="roleSelect") Rol
+              select.form-select#roleSelect(name="role", required)
+                option(value="") Seleccione un rol
+                option(value="admin") Administrador
+                option(value="propietario") Propietario
+                option(value="inquilino") Inquilino
+                option(value="empleado") Empleado
+
+            h5.mt-4 Datos Personales
+            .row
+              .col-md-6.mb-3
+                label.form-label(for="firstName") Nombre
+                input.form-control(type="text", id="firstName", name="personalData.firstName", autocomplete="given-name")
+              .col-md-6.mb-3
+                label.form-label(for="lastName") Apellido
+                input.form-control(type="text", id="lastName", name="personalData.lastName", autocomplete="family-name")
+            .row
+              .col-md-6.mb-3
+                label.form-label(for="dni") DNI
+                input.form-control(type="text", id="dni", name="personalData.dni", inputmode="numeric")
+              .col-md-6.mb-3
+                label.form-label(for="phone") Teléfono
+                input.form-control(type="tel", id="phone", name="personalData.phone", inputmode="tel")
+            .mb-3
+              label.form-label(for="address") Dirección
+              textarea.form-control(id="address", name="personalData.address", rows="2")
+
+            .mb-3
+              label.form-label(for="function") Función (Solo para Empleados)
+              select.form-select#function(name="function")
+                option(value="") Seleccione una función
+                // Opciones se cargarán dinámicamente con JS
+            
+            // --- ¡NUEVO CAMPO: SELECCIÓN DE DEPARTAMENTO! ---
+            .mb-3
+              label.form-label(for="departmentSelect") Departamento (Solo para Empleados)
+              select.form-select#departmentSelect(name="department")
+                option(value="") Seleccione un departamento
+                // Opciones se cargarán dinámicamente con JS
+            // --- FIN NUEVO CAMPO ---
+
+            .mb-3.form-check
+              input.form-check-input(type="checkbox", id="isVerified", name="isVerified", value="true")
+              label.form-check-label(for="isVerified") Verificado
+
+            .d-flex.justify-content-start.mt-3
+              button.btn.btn-success(type="submit")
+                i.fas.fa-save.me-1
+                | Guardar Usuario
+              button#cancelUserEditBtn.btn.btn-secondary.ms-2(type="button")
+                i.fas.fa-times.me-1
+                | Cancelar
+
+    hr.mt-4
+
+    // 4. Tabla con columnas principales y espacio para fila detalles por JS
+    table.table.table-hover.table-bordered.mt-4
+      thead.table-success
+        tr
+          th(scope="col") Usuario
+          th(scope="col") Email
+          th(scope="col") Rol
+          th(scope="col") Nombre Completo
+          th(scope="col") Acciones
+      tbody#usersTableBody
+        tr
+          td(colspan="5").text-center.text-muted Cargando usuarios...
+
+// MODAL PARA DETALLES DE USUARIO
+.modal.fade#userDetailModal(tabindex="-1", aria-labelledby="userDetailModalLabel", aria-hidden="true")
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-header.bg-primary.text-white
+        h5.modal-title#userDetailModalLabel Detalles del Usuario
+        button.btn-close.btn-close-white(type="button", data-bs-dismiss="modal", aria-label="Cerrar")#closeUserModalBtn
+      .modal-body#modalUserContent
+        // Aquí se insertará el contenido dinámico con JS
+      .modal-footer
+        button.btn.btn-secondary(type="button", data-bs-dismiss="modal")#closeModalFooterBtn Cerrar

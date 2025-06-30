@@ -1,0 +1,130 @@
+extends ../layouts/layoutLogin
+block content
+  .auth-container
+    h2.text-center Completa tu Perfil
+    p.text-center Por favor, proporciona tus datos personales para finalizar el registro.
+    
+    //- Contenedor para mensajes de éxito/error del servidor
+    #serverMessage.alert(style="display:none;")
+    
+    form#completeProfileForm
+      .form-group
+        label(for="firstName") Nombre:
+        input(type="text", id="firstName", name="firstName", required, class="form-control")
+      .form-group
+        label(for="lastName") Apellido:
+        input(type="text", id="lastName", name="lastName", required, class="form-control")
+      .form-group
+        label(for="dni") DNI:
+        input(type="text", id="dni", name="dni", required, class="form-control")
+      .form-group
+        label(for="phone") Teléfono:
+        input(type="text", id="phone", name="phone", required, class="form-control")
+      .form-group
+        label(for="address") Dirección:
+        input(type="text", id="address", name="address", required, class="form-control")
+
+      button.btn.btn-primary.btn-block(type="submit") Guardar y Continuar
+      #message.error-message(style="display:none;")
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('[completeProfile.pug] DOMContentLoaded. Script de completeProfile cargado.');
+      const completeProfileForm = document.getElementById('completeProfileForm');
+      const messageDiv = document.getElementById('message');
+      const serverMessageDiv = document.getElementById('serverMessage');
+
+      const displayServerMessage = (message, isSuccess) => {
+        serverMessageDiv.textContent = message;
+        serverMessageDiv.className = 'alert mt-3 text-center';
+        if (isSuccess) {
+          serverMessageDiv.classList.add('alert-success');
+        } else {
+          serverMessageDiv.classList.add('alert-danger');
+        }
+        serverMessageDiv.style.display = 'block';
+      };
+
+      try {
+        const response = await fetch('/api/auth/profile', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
+        if (response.ok) {
+          const userData = await response.json();
+          if (userData.personalData) {
+            document.getElementById('firstName').value = userData.personalData.firstName || '';
+            document.getElementById('lastName').value = userData.personalData.lastName || '';
+            document.getElementById('dni').value = userData.personalData.dni || '';
+            document.getElementById('phone').value = userData.personalData.phone || '';
+            document.getElementById('address').value = userData.personalData.address || '';
+            console.log('[completeProfile.pug] Datos de perfil precargados:', userData.personalData);
+          }
+        } else {
+          console.warn('[completeProfile.pug] No se pudieron cargar los datos del perfil existente:', response.status);
+        }
+      } catch (error) {
+        console.error('[completeProfile.pug] Error al intentar precargar datos del perfil:', error);
+      }
+
+      if (completeProfileForm) {
+        completeProfileForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          console.log('[completeProfile.pug] Formulario enviado.');
+          messageDiv.style.display = 'none';
+          messageDiv.textContent = '';
+          serverMessageDiv.style.display = 'none';
+          serverMessageDiv.textContent = '';
+          serverMessageDiv.classList.remove('alert-success', 'alert-danger');
+
+          const firstName = document.getElementById('firstName').value;
+          const lastName = document.getElementById('lastName').value;
+          const dni = document.getElementById('dni').value;
+          const phone = document.getElementById('phone').value;
+          const address = document.getElementById('address').value;
+
+          if (!firstName || !lastName || !dni || !phone || !address) {
+            messageDiv.textContent = 'Todos los campos son obligatorios.';
+            messageDiv.style.display = 'block';
+            messageDiv.style.color = 'red';
+            console.warn('[completeProfile.pug] Campos obligatorios faltantes.');
+            return;
+          }
+
+          try {
+            console.log('[completeProfile.pug] Enviando solicitud PUT a /api/auth/profile con datos:', { firstName, lastName, dni, phone, address });
+            const response = await fetch('/api/auth/profile', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+              body: JSON.stringify({ firstName, lastName, dni, phone, address }),
+            });
+
+            console.log('[completeProfile.pug] Respuesta de la API recibida. Status:', response.status);
+            const data = await response.json();
+            console.log('[completeProfile.pug] Datos de la respuesta:', data);
+
+            if (response.ok) {
+              displayServerMessage(data.message || 'Perfil actualizado exitosamente. Redirigiendo...', true);
+              console.log('[completeProfile.pug] Perfil actualizado exitosamente. Redireccionando a:', data.redirectTo);
+              setTimeout(() => {
+                window.location.href = data.redirectTo || '/login';
+              }, 1500);
+            } else {
+              console.error('[completeProfile.pug] Error en la respuesta de la API:', data.message);
+              displayServerMessage(data.message || 'Error al actualizar el perfil.', false);
+            }
+          } catch (error) {
+            console.error('[completeProfile.pug] Error de red o del servidor al completar perfil:', error);
+            displayServerMessage('Error al conectar con el servidor para completar el perfil.', false);
+          }
+        });
+      }
+    });

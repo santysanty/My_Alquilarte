@@ -1,0 +1,184 @@
+extends ../layouts/layoutAdmin.pug
+
+block contenido
+  .container.mt-4
+    h2.text-center.mb-4.text-success Panel del Propietario
+
+    ul.nav.nav-tabs#propietarioTabs(role="tablist")
+      li.nav-item
+        a.nav-link.active.text-success#propiedades-tab(data-bs-toggle="tab", href="#propiedades", role="tab", aria-controls="propiedades", aria-selected="true") Propiedades
+      li.nav-item
+        a.nav-link.text-success#inquilinos-tab(data-bs-toggle="tab", href="#inquilinos", role="tab", aria-controls="inquilinos", aria-selected="false") Inquilinos
+
+    .tab-content.mt-3
+
+      .tab-pane.fade.show.active#propiedades(role="tabpanel", aria-labelledby="propiedades-tab")
+        .card.shadow.mb-4
+          .card-header.bg-success.text-white.d-flex.justify-content-between.align-items-center
+            span.fw-bold.ms-2
+              i.fas.fa-home.me-1
+              | Gestión de Propiedades
+            span#propiedadesCounter.badge.bg-light.text-success
+              - var propCount = (typeof propiedades !== 'undefined' && propiedades.length) ? propiedades.length : 0
+              | #{propCount} registradas
+          .card-body
+            ul.nav.nav-pills.mb-3#propiedadesSubTabs(role="tablist")
+              li.nav-item
+                a.nav-link.active(data-bs-toggle="pill", href="#ver-propiedades", role="tab", aria-controls="ver-propiedades", aria-selected="true")
+                  i.fas.fa-list.me-1
+                  | Ver Propiedades
+              li.nav-item
+                a.nav-link(data-bs-toggle="pill", href="#agregar-propiedad", role="tab", aria-controls="agregar-propiedad", aria-selected="false")
+                  i.fas.fa-plus-circle.me-1
+                  | Agregar Propiedad
+              li.nav-item
+                a.nav-link(data-bs-toggle="pill", href="#disponibilidad-propiedades", role="tab", aria-controls="disponibilidad-propiedades", aria-selected="false")
+                  i.fas.fa-calendar-alt.me-1
+                  | Disponibilidad
+              li.nav-item
+                a.nav-link(data-bs-toggle="pill", href="#contratos-propiedades", role="tab", aria-controls="contratos-propiedades", aria-selected="false")
+                  i.fas.fa-file-signature.me-1
+                  | Contratos
+
+            .tab-content.mt-3
+              .tab-pane.fade.show.active#ver-propiedades(role="tabpanel", aria-labelledby="ver-propiedades-tab")
+                .d-flex.justify-content-between.align-items-center.mb-3
+                  .input-group.me-3
+                    input.form-control#searchPropiedades(type="text", placeholder="Buscar propiedad...")
+                    button.btn.btn-outline-secondary(type="button")
+                      i.fas.fa-search
+                  button#quickAddPropiedadBtn.btn.btn-success(data-bs-toggle="tab", data-bs-target="#agregar-propiedad")
+                    i.fas.fa-plus.me-1
+                    | Agregar Rápido
+
+                hr
+                table.table.table-hover.table-bordered.mt-4
+                  thead.table-success
+                    tr
+                      th ID
+                      th Nombre
+                      th Dirección
+                      th Activa
+                      th Acciones
+                  tbody#propiedadesTableBody
+                    tr
+                      td(colspan="5").text-center.text-muted Cargando propiedades...
+
+              .tab-pane.fade#agregar-propiedad(role="tabpanel", aria-labelledby="agregar-propiedad-tab")
+                .card.mb-4
+                  .card-body
+                    form#propiedadForm
+                      input(type="hidden", id="propiedadId")
+                      .mb-3
+                        label.form-label(for="propNombre") Nombre
+                        input.form-control(type="text", id="propNombre", name="nombre", required)
+                      .mb-3
+                        label.form-label(for="propDireccion") Dirección
+                        input.form-control(type="text", id="propDireccion", name="direccion", required)
+                      .mb-3
+                        label.form-label(for="propDescripcion") Descripción
+                        textarea.form-control(id="propDescripcion", name="descripcion")
+                      .mb-3.form-check
+                        input.form-check-input(type="checkbox", id="propActiva", name="activa")
+                        label.form-check-label(for="propActiva") Activa
+                      .d-flex.justify-content-start.mt-3
+                        button.btn.btn-success(type="submit")
+                          i.fas.fa-save.me-1
+                          | Guardar
+                        button#cancelPropiedadEdit.btn.btn-secondary.ms-2(type="button")
+                          i.fas.fa-times.me-1
+                          | Cancelar
+
+              .tab-pane.fade#disponibilidad-propiedades(role="tabpanel", aria-labelledby="disponibilidad-propiedades-tab")
+                .alert.alert-info.mb-3
+                  i.fas.fa-info-circle.me-2
+                  | Aquí podrás gestionar la disponibilidad de tus propiedades.
+                p Contenido para la gestión de disponibilidad...
+
+              .tab-pane.fade#contratos-propiedades(role="tabpanel", aria-labelledby="contratos-propiedades-tab")
+                .alert.alert-warning.mb-3
+                  i.fas.fa-exclamation-triangle.me-2
+                  | Accede y revisa los contratos de alquiler de tus propiedades.
+                p Contenido para la revisión de contratos...
+
+      .tab-pane.fade#inquilinos(role="tabpanel", aria-labelledby="inquilinos-tab")
+        .card.shadow.mb-4
+          .card-header.bg-success.text-white.d-flex.justify-content-between.align-items-center
+            span.fw-bold.ms-2
+              i.fas.fa-users.me-1
+              | Gestión de Inquilinos
+            span#inquilinosCounter.badge.bg-light.text-success
+              - var inqCount = (typeof inquilinos !== 'undefined' && inquilinos.length) ? inquilinos.length : 0
+              | #{inqCount} registrados
+          .card-body
+            ul.nav.nav-pills.mb-3#inquilinosSubTabs(role="tablist")
+              li.nav-item
+                a.nav-link.active(data-bs-toggle="pill", href="#ver-inquilinos", role="tab", aria-controls="ver-inquilinos", aria-selected="true")
+                  i.fas.fa-list-alt.me-1
+                  | Ver Inquilinos
+              li.nav-item
+                a.nav-link(data-bs-toggle="pill", href="#historial-pagos", role="tab", aria-controls="historial-pagos", aria-selected="false")
+                  i.fas.fa-money-bill-wave.me-1
+                  | Historial de Pagos
+              li.nav-item
+                a.nav-link(data-bs-toggle="pill", href="#comunicaciones-inquilinos", role="tab", aria-controls="comunicaciones-inquilinos", aria-selected="false")
+                  i.fas.fa-comments.me-1
+                  | Comunicaciones
+
+            .tab-content.mt-3
+              .tab-pane.fade.show.active#ver-inquilinos(role="tabpanel", aria-labelledby="ver-inquilinos-tab")
+                .d-flex.justify-content-between.align-items-center.mb-3
+                  .input-group.me-3
+                    input.form-control#searchInquilinos(type="text", placeholder="Buscar inquilino...")
+                    button.btn.btn-outline-secondary(type="button")
+                      i.fas.fa-search
+                  button#quickAddInquilinoBtn.btn.btn-success(data-bs-toggle="tab", data-bs-target="#agregar-inquilino")
+                    i.fas.fa-user-plus.me-1
+                    | Agregar Rápido
+
+                hr
+                table.table.table-hover.table-bordered.mt-4
+                  thead.table-success
+                    tr
+                      th ID
+                      th Nombre
+                      th Email
+                      th Teléfono
+                      th Acciones
+                  tbody#inquilinosTableBody
+                    tr
+                      td(colspan="5").text-center.text-muted Cargando inquilinos...
+
+              .tab-pane.fade#agregar-inquilino(role="tabpanel", aria-labelledby="agregar-inquilino-tab")
+                .card.mb-4
+                  .card-body
+                    form#inquilinoForm
+                      input(type="hidden", id="inquilinoId")
+                      .mb-3
+                        label.form-label(for="inqNombre") Nombre
+                        input.form-control(type="text", id="inqNombre", name="nombre", required)
+                      .mb-3
+                        label.form-label(for="inqEmail") Email
+                        input.form-control(type="email", id="inqEmail", name="email", required)
+                      .mb-3
+                        label.form-label(for="inqTelefono") Teléfono
+                        input.form-control(type="text", id="inqTelefono", name="telefono")
+                      .d-flex.justify-content-start.mt-3
+                        button.btn.btn-success(type="submit")
+                          i.fas.fa-save.me-1
+                          | Guardar
+                        button#cancelInquilinoEdit.btn.btn-secondary.ms-2(type="button")
+                          i.fas.fa-times.me-1
+                          | Cancelar
+
+              .tab-pane.fade#historial-pagos(role="tabpanel", aria-labelledby="historial-pagos-tab")
+                .alert.alert-info.mb-3
+                  i.fas.fa-receipt.me-2
+                  | Consulta el historial de pagos recibidos de tus inquilinos.
+                p Contenido para el historial de pagos...
+
+              .tab-pane.fade#comunicaciones-inquilinos(role="tabpanel", aria-labelledby="comunicaciones-inquilinos-tab")
+                .alert.alert-info.mb-3
+                  i.fas.fa-envelope.me-2
+                  | Gestiona las comunicaciones y notificaciones con tus inquilinos.
+                p Contenido para comunicaciones...

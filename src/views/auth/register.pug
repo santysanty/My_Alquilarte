@@ -1,0 +1,120 @@
+extends ../layouts/layoutLogin
+block content
+  .auth-container
+    h2 Registrarse
+
+    // Mensajes del servidor (flash messages)
+    if messages && messages.error
+      #server-message.error-message.alert.alert-danger #{messages.error}
+    if messages && messages.success
+      #server-message.success-message.alert.alert-success #{messages.success}
+
+    form#registerForm(action='/api/auth/register' method='POST')
+      .form-group
+        label(for="username") Nombre de Usuario:
+        input(type="text", id="username", name="username", required value=(oldInput && oldInput.username) || '')
+      
+      .form-group
+        label(for="email") Email:
+        input(type="email", id="email", name="email", required value=(oldInput && oldInput.email) || '')
+      
+      .form-group
+        label(for="password") Contraseña:
+        input(type="password", id="password", name="password", required)
+      
+      .form-group
+        label(for="confirmPassword") Confirmar Contraseña:
+        input(type="password", id="confirmPassword", name="confirmPassword", required)
+
+      .form-group
+        label(for="role") Rol:
+        select(id="role", name="role", required)
+          option(value="") -- Selecciona un rol --
+          option(value="inquilino", selected=(oldInput && oldInput.role === 'inquilino')) Inquilino
+          option(value="propietario", selected=(oldInput && oldInput.role === 'propietario')) Propietario
+          option(value="empleado", selected=(oldInput && oldInput.role === 'empleado')) Empleado
+
+      button(type="submit") Registrarse
+      #message.error-message(style="display:none;")
+
+    p ¿Ya tienes una cuenta? #[a(href="/login") Inicia sesión aquí]
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+        const registerForm = document.getElementById('registerForm');
+        const messageDiv = document.getElementById('message');
+        const serverMessageDiv = document.getElementById('server-message');
+        const roleSelect = document.getElementById('role');
+
+        if (serverMessageDiv) {
+          setTimeout(() => {
+            serverMessageDiv.style.display = 'none';
+          }, 5000);
+        }
+
+        if (registerForm) {
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                messageDiv.style.display = 'none';
+                messageDiv.textContent = '';
+                if (serverMessageDiv) serverMessageDiv.style.display = 'none';
+
+                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const role = roleSelect.value;
+
+                if (!username || !email || !password || !confirmPassword || !role) {
+                    messageDiv.textContent = 'Todos los campos son obligatorios.';
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = 'red';
+                    return;
+                }
+
+                if (password.length < 6) {
+                    messageDiv.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = 'red';
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    messageDiv.textContent = 'Las contraseñas no coinciden.';
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = 'red';
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, email, password, role }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        messageDiv.textContent = data.message || 'Registro exitoso. Revisa tu email para verificar tu cuenta.';
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.color = 'green';
+                        window.location.href = `/verify-code?email=${encodeURIComponent(email)}`;
+                    } else {
+                        console.error('Error de registro:', data.message);
+                        messageDiv.textContent = data.message || 'Error en el registro.';
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.color = 'red';
+                    }
+                } catch (error) {
+                    console.error('Error al conectar con el servidor:', error);
+                    messageDiv.textContent = 'Error al conectar con el servidor.';
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = 'red';
+                }
+            });
+        }
+    });

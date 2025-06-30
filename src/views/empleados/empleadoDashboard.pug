@@ -1,0 +1,97 @@
+extends ../layouts/layoutAdmin
+
+block contenido
+  .dashboard-container.py-4
+    h1.display-5.mb-3.text-center.text-success Bienvenido, Empleado #{user.username}!
+    p.lead.mb-4.text-center Tu rol: #[strong #{user.role.charAt(0).toUpperCase() + user.role.slice(1)}]
+    
+    if user.function
+      p.lead.mb-4.text-center Tu función: #[strong #{user.function.charAt(0).toUpperCase() + user.function.slice(1)}]
+    else
+      p.lead.mb-4.text-center Función: #[em No asignada o general]
+    
+    hr.my-4.border-success
+
+    .main-dashboard-content.container-fluid
+
+      if user.function === 'contabilidad'
+        .row.justify-content-center
+          .col-lg-10.col-md-12
+            .card.shadow-sm.mb-4
+              .card-header.bg-primary.text-white
+                h2.card-title.mb-0 Panel de Contabilidad
+              .card-body
+                p.card-text Desde aquí puedes gestionar todas las operaciones financieras.
+                ul.list-group.list-group-flush.mb-3
+                  li.list-group-item #[a(href="/empleado/contabilidad/reportes") Ver Reportes Financieros]
+                  li.list-group-item #[a(href="/empleado/contabilidad/pagos") Procesar Pagos Pendientes]
+                  li.list-group-item #[a(href="/empleado/contabilidad/facturas") Gestionar Facturas y Cuentas]
+                  li.list-group-item #[a(href="/empleado/contabilidad/cierre-mensual") Realizar Cierre Mensual]
+                .d-grid.gap-2.d-md-flex.justify-content-md-start
+                  button.btn.btn-outline-primary.me-md-2 Generar Balance Actual
+                  button.btn.btn-outline-secondary Exportar Datos Contables
+                hr
+                small.text-muted Última actualización: 14 de Junio de 2025
+
+      else if user.function === 'ventas'
+        .row.justify-content-center
+          .col-lg-10.col-md-12
+            .card.shadow-sm.mb-4
+              .card-header.bg-info.text-white
+                h2.card-title.mb-0 Panel de Ventas
+              .card-body
+                p.card-text Mantén un seguimiento de tus prospectos y ventas.
+                ul.list-group.list-group-flush.mb-3
+                  li.list-group-item #[a(href="/empleado/ventas/clientes") Gestionar Prospectos y Clientes]
+                  li.list-group-item #[a(href="/empleado/ventas/oportunidades") Ver Oportunidades de Venta]
+                  li.list-group-item #[a(href="/empleado/ventas/citas") Agendar y Revisar Citas]
+                  li.list-group-item #[a(href="/empleado/ventas/comisiones") Reporte de Comisiones]
+                .d-grid.gap-2.d-md-flex.justify-content-md-start
+                  button.btn.btn-outline-info.me-md-2 Registrar Nueva Venta
+                  button.btn.btn-outline-secondary Ver Calendario de Citas
+                hr
+                small.text-muted Próxima reunión de ventas: 17 de Junio de 2025
+
+      else if user.function === 'mantenimiento'
+        .row.justify-content-center
+          .col-lg-10.col-md-12
+            .card.shadow-sm.mb-4
+              .card-header.bg-warning.text-dark
+                h2.card-title.mb-0 Panel de Mantenimiento
+              .card-body
+                p.card-text Administra y coordina las solicitudes de mantenimiento.
+                ul.list-group.list-group-flush.mb-3
+                  li.list-group-item #[a(href="/empleado/mantenimiento/solicitudes") Ver Solicitudes Pendientes]
+                  li.list-group-item #[a(href="/empleado/mantenimiento/historial") Historial de Mantenimiento]
+                  li.list-group-item #[a(href="/empleado/mantenimiento/tareas") Asignar y Gestionar Tareas]
+                  li.list-group-item #[a(href="/empleado/mantenimiento/proveedores") Gestión de Proveedores]
+                .d-grid.gap-2.d-md-flex.justify-content-md-start
+                  button.btn.btn-outline-warning.me-md-2 Añadir Nueva Solicitud
+                  button.btn.btn-outline-secondary Ver Mapa de Incidencias
+                hr
+                small.text-muted Solicitudes activas: 5
+
+      else
+        .row.justify-content-center
+          .col-lg-10.col-md-12
+            .card.shadow-sm.mb-4
+              .card-header.bg-secondary.text-white
+                h2.card-title.mb-0 Panel General de Empleado
+              .card-body
+                p.card-text Acceso a herramientas y recursos comunes para todos los empleados.
+                ul.list-group.list-group-flush.mb-3
+                  li.list-group-item #[a(href="/empleado/perfil") Mi Perfil]
+                  li.list-group-item #[a(href="/empleado/noticias") Noticias Internas y Comunicados]
+                  li.list-group-item #[a(href="/empleado/documentos") Documentos y Recursos Comunes]
+                  li.list-group-item #[a(href="/empleado/soporte") Contactar Soporte Interno]
+                .d-grid.gap-2.d-md-flex.justify-content-md-start
+                  button.btn.btn-outline-secondary.me-md-2 Ver Mi Calendario
+                  button.btn.btn-outline-secondary Enviar Mensaje a Equipo
+                hr
+                small.text-muted ¡Mantente al día con las últimas novedades!
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Dashboard de Empleado personalizado cargado y listo.');
+    });

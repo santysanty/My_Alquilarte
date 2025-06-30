@@ -1,0 +1,51 @@
+extends ../layouts/layoutAdmin
+block content
+  .dashboard-container.py-4
+    h1.display-5.mb-3.text-center.text-info Bienvenido, Inquilino #{user.username}!
+    p.lead.mb-4.text-center Tu rol: #[strong #{user.role.charAt(0).toUpperCase() + user.role.slice(1)}]
+    
+    hr.my-4.border-info
+
+    .main-dashboard-content.container-fluid
+      .row.justify-content-center
+        .col-lg-10.col-md-12
+          .card.shadow-sm.mb-4
+            .card-header.bg-info.text-white
+              h2.card-title.mb-0 Panel de Inquilino
+            .card-body
+              p.card-text Desde aquí puedes gestionar tu contrato de alquiler, pagos y solicitudes.
+              .row.g-3
+                .col-md-6
+                  .card.h-100.border-info.shadow-sm
+                    .card-body
+                      h5.card-title.text-info Mi Contrato y Pagos
+                      ul.list-group.list-group-flush.mb-3
+                        li.list-group-item #[a(href="/inquilino/contrato") Ver Mi Contrato de Alquiler]
+                        li.list-group-item #[a(href="/inquilino/pagos") Historial de Pagos y Facturas]
+                        li.list-group-item #[a(href="/inquilino/proximo-pago") Ver Próximo Pago]
+                      .d-grid.mt-3
+                        button.btn.btn-outline-info Realizar Pago Ahora
+
+                .col-md-6
+                  .card.h-100.border-warning.shadow-sm
+                    .card-body
+                      h5.card-title.text-warning Solicitudes y Comunicaciones
+                      ul.list-group.list-group-flush.mb-3
+                        li.list-group-item #[a(href="/inquilino/mantenimiento") Reportar Problema de Mantenimiento]
+                        li.list-group-item #[a(href="/inquilino/comunicaciones") Ver Comunicaciones con Propietario]
+                        li.list-group-item #[a(href="/inquilino/documentos") Documentos Relacionados con el Alquiler]
+                      .d-grid.mt-3
+                        button.btn.btn-outline-warning Nueva Solicitud
+
+          .mt-4.text-center
+            h3.text-muted Información General
+            p Dirección: #[strong Calle Falsa 123, Springfield] | Vencimiento Contrato: #[strong 31/12/2025]
+          .card-footer.text-muted.text-center
+            small ¡Bienvenido a tu hogar en My_Alquilarte!
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Dashboard de Inquilino cargado.');
+        // Puedes añadir aquí JavaScript específico para el dashboard del inquilino.
+    });

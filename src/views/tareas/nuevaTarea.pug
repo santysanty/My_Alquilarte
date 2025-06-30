@@ -1,0 +1,35 @@
+extends layoutAdmin
+block contenido
+  .container.mt-5
+    h1 Crear Nueva Tarea
+    form(action="/tareas/nueva", method="POST")
+      .mb-3
+        label(for="titulo", class="form-label") Título:
+        input(type="text", id="titulo", name="titulo", class="form-control", required)
+      .mb-3
+        label(for="descripcion", class="form-label") Descripción:
+        textarea(id="descripcion", name="descripcion", class="form-control", rows="3")
+      .mb-3
+        label(for="area", class="form-label") Área:
+        select(id="area", name="area", class="form-select", required)
+          option(value="") Seleccione un área
+          each areaOpt in areas 
+            option(value=areaOpt)= areaOpt
+      .mb-3
+        label(for="estado", class="form-label") Estado:
+        select(id="estado", name="estado", class="form-select", required)
+          each estadoOpt in estados 
+            option(value=estadoOpt)= estadoOpt
+      .mb-3
+        label(for="prioridad", class="form-label") Prioridad:
+        select(id="prioridad", name="prioridad", class="form-select", required)
+          each prioridadOpt in prioridades
+            option(value=prioridadOpt)= prioridadOpt
+      .mb-3
+        label(for="fecha", class="form-label") Fecha Límite:
+        input(type="date", id="fecha", name="fecha", class="form-control")
+      .mb-3
+        label(for="empleadoId", class="form-label") Empleado Asignado (ID):
+        input(type="number", id="empleadoId", name="empleadoId", class="form-control", placeholder="ID del empleado (ej. 100)")
+      button(type="submit", class="btn btn-primary") Crear Tarea
+      a(href="/tareas", class="btn btn-secondary ms-2") Cancelar

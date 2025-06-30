@@ -1,0 +1,54 @@
+extends layouts/layoutLogin
+block content
+  style.
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .error-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 90%;
+    }
+    h1 {
+      font-size: 72px;
+      color: #e74c3c;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 24px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    a {
+      display: inline-block;
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    a:hover {
+      background-color: #2980b9;
+    }
+  .error-container
+    h1 404
+    h2 Página No Encontrada
+    p Lo sentimos, la página que estás buscando no existe o ha sido movida.
+    a(href="/") Volver a la Página de Inicio

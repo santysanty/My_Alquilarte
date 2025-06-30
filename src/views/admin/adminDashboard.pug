@@ -1,0 +1,52 @@
+extends ../layouts/layoutAdmin.pug
+
+block contenido
+  .container.mt-4
+    h2.text-center.mb-4 Panel de Administración
+
+    ul.nav.nav-tabs#adminTabs(role="tablist")
+      li.nav-item
+        a.nav-link.tab-button#tasks-tab(data-bs-toggle="tab", href="#tasks", role="tab") Tareas
+      li.nav-item
+        a.nav-link.tab-button#turno-tab(data-bs-toggle="tab", href="#turno", role="tab") Turnos
+      li.nav-item
+        a.nav-link.tab-button.active#departments-tab(data-bs-toggle="tab", href="#departments", role="tab") Departamentos
+      li.nav-item
+        a.nav-link.tab-button#profile-tab(data-bs-toggle="tab", href="#profile", role="tab") Gestión de Usuarios
+      li.nav-item
+        a.nav-link.tab-button#propiedad-tab(data-bs-toggle="tab", href="#propiedad", role="tab") Propiedad
+      li.nav-item
+        a.nav-link.tab-button#mapa-tab(data-bs-toggle="tab", href="#mapa", role="tab") Mapa
+      li.nav-item
+        a.nav-link.tab-button#automizacionCobro-tab(data-bs-toggle="tab", href="#automizacionCobro", role="tab") Alojamiento y Cobranza Automatizada
+      li.nav-item
+        a.nav-link.tab-button#reportes-tab(data-bs-toggle="tab", href="#reportes", role="tab") Reportes
+
+    .tab-content.mt-3
+      .tab-pane.fade#tasks(role="tabpanel")
+        h3 Tareas
+        p Aquí va el CRUD para Tareas (implementar)
+
+      .tab-pane.fade#turno(role="tabpanel")
+        h3 Turnos
+        p Aquí va el CRUD para Turnos (implementar)
+
+      .tab-pane.fade.show.active#departments(role="tabpanel")
+        include ./departamento.pug
+
+      .tab-pane.fade#profile(role="tabpanel")
+        include ./gestionUsuarios.pug
+
+      .tab-pane.fade#mapa(role="tabpanel")
+        include ./mapaPropiedadesTab.pug
+
+      .tab-pane.fade#automizacionCobro(role="tabpanel")
+        h3 Alojamiento y Cobranza Automatizada
+        p Aquí va el contenido para esta sección (implementar)
+
+      .tab-pane.fade#reportes(role="tabpanel")
+        h3 Reportes
+        p Aquí va el contenido para reportes (implementar)
+
+block scripts
+  script(src="/js/admin/ADMINDASHBOARD.JS", type="module")
