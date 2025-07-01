@@ -1,14 +1,14 @@
 [
   {
     "empleadoID": 100,
-    "nombre": "Anas",
+    "nombre": "Ana",
     "apellido": "Gómez",
     "dni": "123123",
     "telefono": "111111111",
     "foto": "/public/uploads/foto-1747677683429.jpeg",
     "email": "ab@a.com",
     "correoElectronico": "a@g.com",
-    "rol": "Inquilino",
+    "rol": "empleado",
     "subrol": "administrativo"
   },
   {
@@ -57,28 +57,6 @@
     "apellido": "Maidana"
   },
   {
-    "empleadoID": 1100,
-    "nombre": "manu",
-    "apellido": "corre",
-    "dni": "3393241",
-    "telefono": "1199991199",
-    "email": "m@m.com",
-    "foto": "/public/uploads/foto-1747836311909.jpeg",
-    "rol": "empleado"
-  },
-  {
-    "empleadoID": "1101",
-    "nombre": "Anas",
-    "apellido": "admin2",
-    "dni": "11111",
-    "correoElectronico": "admin@admin.com",
-    "telefono": "11111",
-    "usuario": "admin",
-    "contrasena": "admin",
-    "rol": "empleado",
-    "foto": ""
-  },
-  {
     "empleadoID": "1102",
     "nombre": "Daniel",
     "apellido": "Correa",
@@ -90,5 +68,17 @@
     "rol": "empleado",
     "foto": "",
     "subrol": "supervisor"
+  },
+  {
+    "empleadoID": "1103",
+    "nombre": "Julio",
+    "apellido": "cortez",
+    "dni": "11111111",
+    "correoElectronico": "j@c.com",
+    "telefono": "2222222",
+    "usuario": "admin",
+    "contrasena": "1",
+    "rol": "empleado",
+    "foto": ""
   }
 ]

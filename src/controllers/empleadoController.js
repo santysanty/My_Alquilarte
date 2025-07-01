@@ -214,4 +214,26 @@ export const showEmpleadoDetail = async (req, res) => {
         res.status(500).render('error', { mensaje: 'Error interno del servidor al mostrar detalle del empleado.' });
     }
 };
+///ultimo1
+export const showDashboardEmpleado = async (req, res) => {
+  try {
+    const empleados = await readJsonFile('empleados.json');
+    const turnos = await readJsonFile('turnos.json'); // si lo usás
+    const empleado = empleados.find(e => String(e.empleadoID) === String(req.params.id));
+
+    if (!empleado) {
+      return res.status(404).render('error', { mensaje: 'Empleado no encontrado' });
+    }
+
+    const turnosFiltrados = turnos.filter(t => t.estado === 'aceptado' || t.empleadoId === empleado.empleadoID);
+
+    res.render('dashboardEmpleado', {
+      empleado,
+      turnos: turnosFiltrados
+    });
+  } catch (error) {
+    console.error('Error al cargar dashboard empleado:', error);
+    res.status(500).render('error', { mensaje: 'Error al mostrar el dashboard del empleado.' });
+  }
+};
 

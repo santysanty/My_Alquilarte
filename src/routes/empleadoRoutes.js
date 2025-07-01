@@ -62,6 +62,10 @@ router.delete('/:id/eliminar', empleadoController.deleteEmpleado);
 // Ver detalle de un empleado
 console.log('empleadoRoutes.js: Configurando ruta GET /empleados/:id');
 router.get('/:id', empleadoController.showEmpleadoDetail);
+///Dashboard empleados
+router.get('/:id/dashboard', empleadoController.showDashboardEmpleado);
+
+
 
 // Buscar tareas por nombre y apellido (desde dashboardEmpleado)
 console.log('empleadoRoutes.js: Configurando ruta GET /empleados/dashboard/buscar-tareas');

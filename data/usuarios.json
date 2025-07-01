@@ -4,7 +4,7 @@
     "contrasena": "pass123",
     "rol": "inquilino",
     "id": 1,
-    "nombre": "Julia",
+    "nombre": "Julio",
     "apellido": "Gómez",
     "dni": "30123456",
     "telefono": "1122334455",
@@ -66,6 +66,20 @@
     "contrasena": "mypass123",
     "rol": "empleado",
     "subrol": "administrativo",
+    "foto": ""
+  },
+  {
+    "usuarioID": "1103",
+    "id": "1103",
+    "nombre": "Julio",
+    "apellido": "cortez",
+    "dni": "11111111",
+    "correoElectronico": "j@c.com",
+    "telefono": "2222222",
+    "usuario": "admin",
+    "contrasena": "1",
+    "rol": "empleado",
+    "subrol": "contador",
     "foto": ""
   }
 ]

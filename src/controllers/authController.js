@@ -1,57 +1,61 @@
-// src/controllers/authController.js
-
 import { readJsonFile } from '../utils/jsonHandler.js'; 
 import path from 'path'; 
 import { fileURLToPath } from 'url'; 
 
-// Configuración para __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Define la ruta a tu archivo de usuarios.json de forma robusta
 const DB_USUARIOS = path.join(__dirname, '..', '..', 'data', 'usuarios.json'); 
+const DB_EMPLEADOS = path.join(__dirname, '..', '..', 'data', 'empleados.json'); 
 
 
-// Función para renderizar la vista de login
 export const renderLogin = (req, res) => {
     res.render('login'); 
 };
 
-// Función para procesar el intento de login
 export const processLogin = async (req, res) => {
-    const { usuario, contrasena } = req.body; // Obtiene el usuario y la contraseña del formulario
+    const { usuario, contrasena } = req.body;
 
     try {
-        const usuarios = await readJsonFile(DB_USUARIOS); // Lee los usuarios del archivo JSON
-        const encontrado = usuarios.find(u => u.usuario === usuario && u.contrasena === contrasena);
+        const usuarios = await readJsonFile(DB_USUARIOS);
+        const empleados = await readJsonFile(DB_EMPLEADOS);
 
-        if (!encontrado) {
-            // Si no se encuentra el usuario o las credenciales son incorrectas
+        // Buscar primero en usuarios.json
+        let personaEncontrada = usuarios.find(u => u.usuario === usuario && u.contrasena === contrasena);
+
+        // Si no está en usuarios.json, buscar en empleados.json
+        if (!personaEncontrada) {
+            personaEncontrada = empleados.find(e => e.usuario === usuario && e.contrasena === contrasena);
+        }
+
+        if (!personaEncontrada) {
             return res.status(401).render('errorLogin', { mensaje: 'Credenciales incorrectas. Inténtalo de nuevo.' });
-            
         }
 
-        // Si las credenciales son correctas, redirige según el rol
-        switch (encontrado.rol) {
-            case 'administrador': 
+        // Redirigir según el rol
+        const rol = personaEncontrada.rol?.toLowerCase();
+
+        switch (rol) {
+            case 'administrador':
                 console.log('Login exitoso: Administrador');
-                return res.redirect('/admin'); // Redirige al dashboard de administrador
-            case 'empleado': 
+                return res.redirect('/admin');
+            case 'empleado':
                 console.log('Login exitoso: Empleado');
-                return res.redirect('/empleado'); // Redirige al dashboard de empleado
-            case 'propietario': 
+                console.log('Redirigiendo a: /empleados/' + (personaEncontrada.id || personaEncontrada.empleadoID) + '/dashboard');
+                return res.redirect(`/empleados/${personaEncontrada.id || personaEncontrada.empleadoID}/dashboard`);
+            case 'propietario':
                 console.log('Login exitoso: Propietario');
-                return res.redirect('/propietario'); // Redirige al dashboard de propietario
-            case 'inquilino': 
+                return res.redirect(`/propietario/${personaEncontrada.id}/dashboard`);
+            case 'inquilino':
                 console.log('Login exitoso: Inquilino');
-                return res.redirect('/inquilino'); // Redirige al dashboard de inquilino
-            default: 
-                console.log('Login exitoso: Rol desconocido, redirigiendo a inicio');
-                return res.redirect('/'); // Redirige a la página de inicio por defecto
+                return res.redirect(`/inquilino/${personaEncontrada.id}/dashboard`);
+            default:
+                console.log('Login exitoso con rol desconocido');
+                return res.redirect('/');
         }
+
     } catch (error) {
         console.error('Error al procesar el login:', error);
         return res.status(500).render('error', { mensaje: 'Ocurrió un error en el servidor al intentar iniciar sesión.' });
     }
 };
-

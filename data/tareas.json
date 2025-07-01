@@ -130,5 +130,17 @@
     "empleadoId": 1102,
     "informe": "",
     "finalizada": false
+  },
+  {
+    "tareaID": 405,
+    "titulo": "Pagar impuestos",
+    "descripcion": "Pagar ,luz , y agua",
+    "estado": "pendiente",
+    "prioridad": "media",
+    "fecha": "2025-06-28",
+    "area": "Administración",
+    "empleadoId": 100,
+    "informe": "",
+    "finalizada": false
   }
 ]

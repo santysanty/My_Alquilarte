@@ -31,6 +31,7 @@ router.post('/login', usuarioController.procesarLogin);
 router.get('/admin', (req, res) => {
   res.render('adminDashboard');
 });
+//empleados
 
 // CRUD de usuarios (administrador)
 router.get('/usuarios', usuarioController.getAllUsuarios);
@@ -46,10 +47,8 @@ router.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-// Cualquier otra ruta desconocida también al login
-router.get('*', (req, res) => {
-  res.redirect('/login');
-});
+
+
 
 export default router;
 

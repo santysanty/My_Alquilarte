@@ -6,6 +6,8 @@ import path from 'path';
 import fs from 'fs';
 import multer from 'multer';
 import { fileURLToPath } from 'url';
+import authRoutes from './routes/authRoutes.js';
+
 
 // Utils
 import { leerJSON, escribirJSON } from './utils/jsonUtils.js';
@@ -40,6 +42,8 @@ app.use('/usuario', usuarioRoutes);      // CRUD + login + inicio en uno solo
 app.use('/empleados', empleadoRoutes);
 app.use('/tareas', tareaRoutes);
 app.use('/', usuarioRoutes);             //login
+app.use('/', authRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
